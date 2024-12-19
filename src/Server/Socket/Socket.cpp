@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 11:48:07 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/06 14:30:41 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/19 13:43:48 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,39 +27,37 @@ Socket::Socket(){
 	std::memset(&_addr, 0, sizeof(_addr));
 }
 
-int		Socket::initTCP(const char *port, int events, const char *ip) {
-	int socketFd = 0;
+void	Socket::initTCP(const char *port, int events, const char *ip) {
+	_socketFd = 0;
 	try{
-		initSocket(socketFd);
-		setSocketReusable(socketFd);
-		setPortReusable(socketFd);
+		initSocket();
+		setSocketReusable();
+		setPortReusable();
 		setAddr(port, ip);
-		setAddrToSocket(socketFd);
-		putSocketListeningLimit(socketFd, events);
-		return (socketFd);
+		setAddrToSocket();
+		putSocketListeningLimit(events);
 	} catch(std::exception &e) {
 		std::cerr << e.what();
 	}
-	return (-1);
 }
 
-void	Socket::initSocket(int &socketFd){
-	socketFd = socket(AF_INET, SOCK_STREAM | SOCK_CLOEXEC, IPPROTO_TCP);
-	if (socketFd == -1)
+void	Socket::initSocket(){
+	_socketFd = socket(AF_INET, SOCK_STREAM | SOCK_CLOEXEC, IPPROTO_TCP);
+	if (_socketFd == -1)
 		throw std::runtime_error("error: socket()");
 }
 
-void	Socket::setSocketReusable(int &socketFd){
+void	Socket::setSocketReusable(){
 	int enable = 1;
 
-	if (setsockopt(socketFd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) == -1)
+	if (setsockopt(_socketFd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) == -1)
 		throw std::runtime_error("error: setsockopt()");
 }
 
-void	Socket::setPortReusable(int &socketFd){
+void	Socket::setPortReusable(){
 	int enable = 1;
 
-	if (setsockopt(socketFd, SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int)) == -1)
+	if (setsockopt(_socketFd, SOL_SOCKET, SO_REUSEPORT, &enable, sizeof(int)) == -1)
 		throw std::runtime_error("error: setsockopt()");
 }
 
@@ -69,11 +67,16 @@ void	Socket::setAddr(const char *port, const char *ip) {
 	inet_pton(AF_INET, ip, &_addr.sin_addr);
 }
 
-void	Socket::setAddrToSocket(int &socketFd){
-	if (bind(socketFd, (struct sockaddr *)&_addr, sizeof(_addr)) == -1)
+void	Socket::setAddrToSocket(){
+	if (bind(_socketFd, (struct sockaddr *)&_addr, sizeof(_addr)) == -1)
 		throw std::runtime_error("error: failed to bind socket");
 }
 
-void	Socket::putSocketListeningLimit(int &socketFd, int &events){
-	listen(socketFd, events);
+void	Socket::putSocketListeningLimit(int &events){
+	listen(_socketFd, events);
+}
+
+
+int		Socket::getSocketFd() const {
+	return (this->_socketFd);
 }

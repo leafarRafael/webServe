@@ -6,14 +6,14 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:33:31 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/18 20:42:23 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/19 17:03:56 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once 
 
-#include "Listen2.hpp"
-#include "ErrorPage2.hpp"
+#include "Listen.hpp"
+#include "ErrorPage.hpp"
 #include "ServerName.hpp"
 #include "MaxBodySize.hpp"
 #include "Root.hpp"
@@ -21,8 +21,8 @@
 
 class DataServer{
 	private:
-		Listen2					_listen;
-		ErrorPage2				_errorPage;
+		Listen					_listen;
+		ErrorPage				_errorPage;
 		ServerName				_serverName;
 		MaxBodySize				_maxBodySize;
 		Root					_root;

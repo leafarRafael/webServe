@@ -13,40 +13,43 @@
 /* ************************************************************************** */
 
 #include <iostream>
-#include "Webserv.hpp"
+#include "WebServ.hpp"
 #include "Server.hpp"
-#include "Parser.hpp"
-#include "Conf.hpp"
-#include "Handler.hpp"
-#include "defines.hpp"
 #include "ParseConf.hpp"
 
 #include "Settings.hpp"
 
 using namespace std;
 
-int main(int ac, char **av)
-{
-/* 	std::list<Server>	servers;
-	std::string error;
-
-	ParseConf parse;
+int main(int ac, char **av){
+	std::list<Server>	servers;
+	ParseConf			parse;
+	
 	try{
 		if (ac == 2)
 			servers = parse.parseFileConf(av[1]);
+		WebServ	web(servers);
+		web.loopingEvent();
+		
 	}catch(std::exception &e){
 		cout << e.what() << "\n";
 		exit(1);
 	}
 
-	std::cout << "IP: " << servers.front().getIP() << '\n';
+}
+
+
+
+
+
+
+/* 	std::cout << "IP: " << servers.front().getIP() << '\n';
 	std::cout << "Port: " << servers.front().getPort() << '\n';
 	std::cout << "ErrorPage: " << servers.front().getErrorPage(404) << '\n';
 	std::cout << "ServerName: " << servers.front().getServerName() << '\n';
 	std::cout << "MaxBody: " << servers.front().getMaxBodySize() << '\n';
 	std::cout << "Root: " << servers.front().getRoot() << '\n';
 	std::cout << "Index: " << servers.front().getIndex() << '\n';
-	
 	
 	std::cout << "\n/////////////////////////////location /image/ ///////////////////////////////////////////////////\n\n";
 	std::cout << "getPathLocation: " << servers.front().getLocation("/imagens/").getPathLocation() << '\n';
@@ -55,9 +58,7 @@ int main(int ac, char **av)
 	std::cout << "getAutoIndexBool() " << servers.front().getLocation("/imagens/").getAutoIndexBool() << '\n';
 	std::cout << ".getMaxBodySize()  " << servers.front().getLocation("/imagens/").getMaxBodySize() << '\n';
 	std::cout << "getIndex() " << servers.front().getLocation("/imagens/").getIndex() << '\n';
-	std::cout << "getRoot() " << servers.front().getLocation("/imagens/").getRoot() << '\n';
-	
-	
+	std::cout << "getRoot() " << servers.front().getLocation("/imagens/").getRoot() << '\n';	
 	
 	std::cout << "\n/////////////////////////////location /update/ ///////////////////////////////////////////////////\n\n";
 	std::cout << "getPathLocation: " << servers.front().getLocation("/upload/").getPathLocation() << '\n';
@@ -67,20 +68,3 @@ int main(int ac, char **av)
 	std::cout << ".getMaxBodySize()  " << servers.front().getLocation("/upload/").getMaxBodySize() << '\n';
 	std::cout << "getIndex() " << servers.front().getLocation("/upload/").getIndex() << '\n';
 	std::cout << "getRoot() " << servers.front().getLocation("/upload/").getRoot() << '\n'; */
-
-	
-	if (ac <= 2) {
-		try {
-			Conf cf;
-			Parser::parser(cf, (ac == 1 ? "conf/default.conf": av[1]));
-			manager.setting();
-			manager.loopingEvent();
-		} catch (const exception &e) {
-			cerr << e.what() << endl;
-		}
-	} else {
-		cerr << "usage: ./webserv <path to configuration file> or just ./webserv" << endl;
-		return (FAIL);
-	}
-	return (SUCCESS);
-}

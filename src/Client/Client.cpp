@@ -13,16 +13,14 @@
 #include "Client.hpp"
 #include <unistd.h>
 
-Client::Client(Server *server, int fdClient) : _server(server), _socketFdClient(fdClient) {
+Client::Client(Server &server, int fdClient) : _server(server), _socketFdClient(fdClient) {
 	_request = NULL;
 	_startTime = std::time(0);
 };
 
-Client::~Client() {
-	/* close(this->_socketFdClient); */
-}
+Client::~Client() {}
 
-Server *Client::getServer(void) const {
+Server Client::getServer(void) const {
 	return (this->_server);
 }
 

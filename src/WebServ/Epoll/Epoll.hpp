@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Server.hpp                                         :+:      :+:    :+:   */
+/*   Epoll.hpp                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 14:37:59 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/19 17:34:27 by rbutzke          ###   ########.fr       */
+/*   Created: 2024/12/19 14:54:09 by rbutzke           #+#    #+#             */
+/*   Updated: 2024/12/19 15:24:49 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-# include "Socket.hpp"
-# include "Response.hpp"
-# include <string>
-# include <map>
-# include "Settings.hpp"
+#include <sys/epoll.h>
+#include "Server.hpp"
 
-class Request;
-class Directive;
+class Epoll{
+	protected:
+		int			_nfds, _epollFd;
+		epoll_event	_events[80];
+		void	createEpoll();
+		void	initEpollStruct();
+		void	addSocketsToEpoll(std::list<Server> servers);
+		void	epoll_CTRL(int clientFd, int event, int flagCTLR, void *ptr);
+		Epoll();
+		~Epoll();
 
-class Server : public Socket, public Response, public Settings {
-	private:
-		std::map<int, Request *>			fdClient;
-		int									_socketFd;
-
-	public:
-		Server();
-		~Server();
-		void			response(int fd, Request *request);
 };

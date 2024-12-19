@@ -1,33 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Server.hpp                                         :+:      :+:    :+:   */
+/*   Listen.hpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 14:37:59 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/19 17:34:27 by rbutzke          ###   ########.fr       */
+/*   Created: 2024/12/15 20:24:51 by rbutzke           #+#    #+#             */
+/*   Updated: 2024/12/19 17:02:20 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-# include "Socket.hpp"
-# include "Response.hpp"
-# include <string>
-# include <map>
-# include "Settings.hpp"
+#include <string>
+#include <list>
 
-class Request;
-class Directive;
 
-class Server : public Socket, public Response, public Settings {
+class Listen{
 	private:
-		std::map<int, Request *>			fdClient;
-		int									_socketFd;
+		std::string _ip;
+		std::string _port;
+
+		void	addPortIP(std::list<std::string> tokens);
+		void	setPort(std::string token);
+		void	setIP(std::string token);
 
 	public:
-		Server();
-		~Server();
-		void			response(int fd, Request *request);
+		Listen();
+
+		void		setListen(std::string listen);
+		std::string	getIP();
+		std::string	getPort();
 };

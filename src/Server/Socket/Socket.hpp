@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 11:46:49 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/05 15:37:14 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/19 13:43:12 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,19 @@
 
 class Socket {
 	private:
+		int				_socketFd;
 		sockaddr_in		_addr;
-		virtual void	initSocket(int &socketFd);
-		virtual void	setSocketReusable(int &socketFd);
-		virtual void	setPortReusable(int &socketFd);
+		virtual void	initSocket();
+		virtual void	setSocketReusable();
+		virtual void	setPortReusable();
 		virtual void	setAddr(const char *port, const char *ip);
-		virtual void	setAddrToSocket(int &socketFd);
-		virtual void	putSocketListeningLimit(int &socketFd, int &events);
+		virtual void	setAddrToSocket();
+		virtual void	putSocketListeningLimit(int &events);
 
 	public:
 		Socket();
 		~Socket();
-		virtual int		initTCP(const char *port, int events, const char *ip);
+		int				getSocketFd(void) const;
+		void			setSocketFd(const int socketFd);
+		virtual void	initTCP(const char *port, int events, const char *ip);
 };

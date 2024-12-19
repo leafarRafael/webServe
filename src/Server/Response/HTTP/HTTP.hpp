@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:32:30 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/15 14:39:55 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/19 19:34:03 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 #include <map>
 #include <string>
+#include <ostream>
 
 # include "StatusLine.hpp"
 # include "Headers.hpp"
@@ -26,7 +27,7 @@ class HTTP{
 		Body			_body;
 
 	public:
-		void	setBody(std::string body);
+		void		setBody(std::string body);
 		std::string	getHTTP() const;
 
 		template<typename T>
@@ -44,4 +45,3 @@ class HTTP{
 			_statusLine.setStatusMensage(statusMensage);
 		}
 };
-

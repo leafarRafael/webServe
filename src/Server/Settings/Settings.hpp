@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 20:08:05 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/18 21:05:57 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/19 17:01:29 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 #include <string>
 
-#include "Location2.hpp"
+#include "Location.hpp"
 #include "DataServer.hpp"
 
 class DataLocation;
@@ -29,9 +29,9 @@ typedef	struct direct_method
 class Settings{
 
 	private:
-		static	direct_Method		_ptrMethods[6];
+		static	direct_Method	_ptrMethods[6];
 		DataServer				_server;
-		Location2				_location;
+		Location				_location;
 
 		void	addServerDirective(std::list<std::string> &tokens);
 		void	setDirective(std::string directive);

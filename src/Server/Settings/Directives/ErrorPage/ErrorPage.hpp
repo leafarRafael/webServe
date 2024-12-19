@@ -1,33 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Server.hpp                                         :+:      :+:    :+:   */
+/*   ErrorPage.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/10/23 14:37:59 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/19 17:34:27 by rbutzke          ###   ########.fr       */
+/*   Created: 2024/12/15 20:35:45 by rbutzke           #+#    #+#             */
+/*   Updated: 2024/12/19 17:04:22 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-# include "Socket.hpp"
-# include "Response.hpp"
-# include <string>
-# include <map>
-# include "Settings.hpp"
+#include <string>
+#include <list>
+#include <algorithm>
+#include "ErrorCodeURL.hpp"
 
-class Request;
-class Directive;
-
-class Server : public Socket, public Response, public Settings {
+class ErrorPage{
 	private:
-		std::map<int, Request *>			fdClient;
-		int									_socketFd;
+		std::list<ErrorCodeURL> _error;
+		void	findSetErrorCode(std::list<std::string> &tokens, ErrorCodeURL &errorContent);
+		void	findSetErrorPage(std::list<std::string> &tokens, ErrorCodeURL &errorContent);
 
 	public:
-		Server();
-		~Server();
-		void			response(int fd, Request *request);
+		void		setErrorPage(std::string &error_page);
+		std::string	getErrorPage(int errorCode);
 };

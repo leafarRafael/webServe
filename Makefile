@@ -17,18 +17,18 @@ CMD_CLEAN	:= rm -Rf
 SRC_DIR				:= src/ src/utils \
 					src/Server \
 					src/Server/Settings \
-					src/Server/ParseConf \
-					src/Server/ParseConf/ParseValidation \
-					src/Server/ParseConf/ParseTokens \
+					src/ParseConf \
+					src/ParseConf/ParseValidation \
+					src/ParseConf/ParseTokens \
 					src/Server/Settings/DataServer \
-					src/Server/Settings/Location2 \
-					src/Server/Settings/Location2/DataLocation \
+					src/Server/Settings/Location \
+					src/Server/Settings/Location/DataLocation \
 					src/Server/Settings/Directives/AllowMethods \
 					src/Server/Settings/Directives/AutoIndex \
-					src/Server/Settings/Directives/ErrorPage2 \
-					src/Server/Settings/Directives/ErrorPage2/ErrorCodeURL \
+					src/Server/Settings/Directives/ErrorPage \
+					src/Server/Settings/Directives/ErrorPage/ErrorCodeURL \
 					src/Server/Settings/Directives/Index \
-					src/Server/Settings/Directives/Listen2 \
+					src/Server/Settings/Directives/Listen \
 					src/Server/Settings/Directives/MaxBodySize \
 					src/Server/Settings/Directives/PathLocation \
 					src/Server/Settings/Directives/Return \
@@ -40,12 +40,9 @@ SRC_DIR				:= src/ src/utils \
 					src/Server/Response/HTTP/StatusLine \
 					src/Server/Response/HTTP/Headers \
 					src/Server/Response/HTTP/Body \
-					src/Webserv \
+					src/WebServ \
+					src/WebServ/Epoll \
 					src/ParserRequest \
-					src/Parser\
-					src/Logger\
-					src/Server/Location \
-					src/Server/ErrorPage\
 					src/ParseRequest/Request \
 					src/ParseRequest/Request/Request \
 					src/ParseRequest\
@@ -64,17 +61,17 @@ INCLUDE				:= -I src/Server \
 					-I src/Server/Socket \
 					-I src/Server/Settings \
 					-I src/Server/Settings/DataServer \
-					-I src/Server/ParseConf \
-					-I src/Server/ParseConf/ParseValidation \
-					-I src/Server/ParseConf/ParseTokens \
-					-I src/Server/Settings/Location2 \
-					-I src/Server/Settings/Location2/DataLocation \
+					-I src/ParseConf \
+					-I src/ParseConf/ParseValidation \
+					-I src/ParseConf/ParseTokens \
+					-I src/Server/Settings/Location \
+					-I src/Server/Settings/Location/DataLocation \
 					-I src/Server/Settings/Directives/AllowMethods \
 					-I src/Server/Settings/Directives/AutoIndex \
-					-I src/Server/Settings/Directives/ErrorPage2 \
-					-I src/Server/Settings/Directives/ErrorPage2/ErrorCodeURL \
+					-I src/Server/Settings/Directives/ErrorPage \
+					-I src/Server/Settings/Directives/ErrorPage/ErrorCodeURL \
 					-I src/Server/Settings/Directives/Index \
-					-I src/Server/Settings/Directives/Listen2 \
+					-I src/Server/Settings/Directives/Listen \
 					-I src/Server/Settings/Directives/MaxBodySize \
 					-I src/Server/Settings/Directives/PathLocation \
 					-I src/Server/Settings/Directives/Return \
@@ -86,13 +83,9 @@ INCLUDE				:= -I src/Server \
 					-I src/Server/Response/HTTP/StatusLine \
 					-I src/Server/Response/HTTP/Headers \
 					-I src/Server/Response/HTTP/Body \
-					-I src/Webserv\
+					-I src/WebServ\
+					-I src/WebServ/Epoll \
 					-I src/ParserRequest \
-					-I src/Parser\
-					-I src/Logger\
-					-I include \
-					-I src/Server/Location\
-					-I src/Server/ErrorPage \
 					-I src/ParseRequest\
 					-I src/ParseRequest/Request \
 					-I src/ParseRequest/Request/Request \
@@ -143,13 +136,13 @@ run:
 	./$(NAME)
 
 re_run: re
-	./$(NAME) conf/conf.conf
+	./$(NAME) fileConf/conf.conf
 
 debug: re
 	./$(NAME) "DEBUG"
 
 valgrind: re
-	valgrind ./$(NAME) conf/conf.conf
+	valgrind  --leak-check=full ./$(NAME) fileConf/conf.conf
 
 curl:
 	curl -X POST -H "Transfer-Encoding: chunked" -H "Content-Type: application/json" --data-binary @index/dados.json 127.0.0.1:8080
