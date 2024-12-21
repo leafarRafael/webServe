@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 16:09:58 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/19 19:36:54 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/20 13:42:05 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void	Response::sendImage(int fd, string image) {
 	_response->setHeaders("Connection", "close");
 	_response->setBody(bImage.str());
 	_response->setHeaders("Content-Length", bImage.str().length());
+	
+
 	send(fd, _response->getHTTP().c_str(), _response->getHTTP().length(), 0);
 	delete _response;
 
@@ -87,5 +89,3 @@ void Response::setPathImage(string pathImage){
 void Response::setPathIndex(string pathIndex){
 	_pathIndex = pathIndex;
 }
-
- 

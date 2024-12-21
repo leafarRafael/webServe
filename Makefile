@@ -15,11 +15,16 @@ CMD_CLEAN	:= rm -Rf
 #-----------------------------------------------------------------------------------------
 # DIRECTORY
 SRC_DIR				:= src/ src/utils \
+					src/MIMES \
 					src/Server \
-					src/Server/Settings \
+					src/Server/Methods/AMethods \
+					src/Server/Methods/AMethods/FindLocation \
+					src/Server/Methods/AMethods/ErrorDefault \
+					src/Server/Methods/GET \
 					src/ParseConf \
 					src/ParseConf/ParseValidation \
 					src/ParseConf/ParseTokens \
+					src/Server/Settings \
 					src/Server/Settings/DataServer \
 					src/Server/Settings/Location \
 					src/Server/Settings/Location/DataLocation \
@@ -36,10 +41,10 @@ SRC_DIR				:= src/ src/utils \
 					src/Server/Settings/Directives/ServerName \
 					src/Server/Socket \
 					src/Server/Response \
-					src/Server/Response/HTTP \
-					src/Server/Response/HTTP/StatusLine \
-					src/Server/Response/HTTP/Headers \
-					src/Server/Response/HTTP/Body \
+					src/Server/HTTP \
+					src/Server/HTTP/StatusLine \
+					src/Server/HTTP/Headers \
+					src/Server/HTTP/Body \
 					src/WebServ \
 					src/WebServ/Epoll \
 					src/ParserRequest \
@@ -58,6 +63,11 @@ SRC_DIR				:= src/ src/utils \
 #-----------------------------------------------------------------------------------------
 # Header file
 INCLUDE				:= -I src/Server \
+					-I src/MIMES \
+					-I src/Server/Methods/AMethods \
+					-I src/Server/Methods/AMethods/FindLocation \
+					-I src/Server/Methods/AMethods/ErrorDefault \
+					-I src/Server/Methods/GET \
 					-I src/Server/Socket \
 					-I src/Server/Settings \
 					-I src/Server/Settings/DataServer \
@@ -79,10 +89,10 @@ INCLUDE				:= -I src/Server \
 					-I src/Server/Settings/Directives/ServerName \
 					-I src/utils\
 					-I src/Server/Response \
-					-I src/Server/Response/HTTP \
-					-I src/Server/Response/HTTP/StatusLine \
-					-I src/Server/Response/HTTP/Headers \
-					-I src/Server/Response/HTTP/Body \
+					-I src/Server/HTTP \
+					-I src/Server/HTTP/StatusLine \
+					-I src/Server/HTTP/Headers \
+					-I src/Server/HTTP/Body \
 					-I src/WebServ\
 					-I src/WebServ/Epoll \
 					-I src/ParserRequest \
@@ -132,8 +142,8 @@ fclean: clean
 
 re: fclean all
 
-run:
-	./$(NAME)
+run: all
+	./$(NAME) fileConf/conf.conf
 
 re_run: re
 	./$(NAME) fileConf/conf.conf

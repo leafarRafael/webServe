@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 11:58:02 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/19 17:34:27 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/20 15:54:53 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,6 @@ void	WebServ::manangerResponse(void *ptr){
 	Client	*client = (Client *)ptr;
 	Request	*request = client->getRequest();
 	Server	server = client->getServer();
-
-	int	error = request->getParserError();
-	if (error)
-	{
-		removeClient(request, client);
-		return ;
-	}
 	server.response(client->getFdClient(), request);
 	removeClient(request, client);
 }

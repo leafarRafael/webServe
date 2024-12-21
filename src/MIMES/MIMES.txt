@@ -1,0 +1,55 @@
+
+text/{
+	plain;
+	html;
+	css;
+	javascript;
+}
+
+image/{
+	jpeg;
+	png;
+	gif;
+	webp;
+	svg+xml;
+	x-icon;
+}
+
+audio/{
+	mpeg;
+	ogg;
+	wav;
+}
+
+video/{
+	mp4;
+	ogg;
+	webm;
+}
+
+application/{
+	json;
+	xml;
+	x-www-form-urlencoded;
+	pdf;
+	zip;
+	octet-stream;
+	vnd.api+json;
+	x-www-form-urlencoded;
+	octet-stream;
+	x-executable;
+	vnd.ms-excel;
+	msword;
+	vnd.openxmlformats-officedocument.wordprocessingml.document;
+	vnd.openxmlformats-officedocument.spreadsheetml.sheet;
+}
+
+multipart/{
+	form-data;
+	mixed;
+}
+
+font/{
+	woff;
+	woff2;
+}

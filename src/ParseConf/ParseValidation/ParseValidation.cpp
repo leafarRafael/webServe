@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:41:20 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/18 17:56:23 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/21 12:23:56 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@
 #include <cerrno> 
 #include <sstream>
 #include <iostream>
+#include "utils.hpp"
 
-bool validWord(std::string buffer, std::string toFind, char c);
+
 
 void		ParseValidation::validFileExtension(std::string file){
 	if (file.substr(file.length() -5, file.length()).find(".conf") == std::string::npos)
@@ -78,7 +79,7 @@ void	ParseValidation::validDirectivesLocation(std::string &buffer){
 		throw (std::runtime_error("Directive root in scope location not found."));
 }
 
-bool validWord(std::string buffer, std::string toFind, char c){
+/* bool validWord(std::string buffer, std::string toFind, char c){
 	std::size_t	pos;
 	char		prefix, sufix;
 
@@ -96,4 +97,4 @@ bool validWord(std::string buffer, std::string toFind, char c){
 			return false;
 	}
 	return true;
-}
+} */

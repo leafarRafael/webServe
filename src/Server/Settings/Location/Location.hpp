@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:10:25 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/19 17:05:11 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/21 11:53:30 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ class Location{
 		void	setDirective(std::string directive, DataLocation &data);
 
 	public:
+		Location();
+		~Location();
 		void			setLocation(std::string location);
 		DataLocation	getLocation(std::string	path);
 		

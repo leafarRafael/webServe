@@ -185,3 +185,34 @@ std::size_t	toulong(T svalue){
 	iss >> valueInt;
 	return valueInt;
 }
+
+
+template<typename T>
+std::string	intToString(T svalue){
+	std::ostringstream	oss;
+
+	oss << svalue;
+	return oss.str();
+}
+
+template<typename T, typename X, typename C>
+bool validWord(T buffer, X toFind, C c){
+    std::string buf = buffer, fin = toFind;
+	std::size_t	pos;
+	char		prefix, sufix;
+
+	pos = buf.find(fin);
+	if (pos == std::string::npos)
+		return false;
+	sufix = buf[fin.length() + pos];
+	if (pos != 0){
+		prefix = buf[pos-1];
+		if (!isspace(prefix) || (!isspace(sufix) && sufix != c))
+			return false;
+	}
+	if (pos == 0){
+		if (!isspace(sufix) && sufix != c)
+			return false;
+	}
+	return true;
+}

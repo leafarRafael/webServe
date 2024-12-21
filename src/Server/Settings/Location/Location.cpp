@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:30:08 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/19 17:00:41 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/21 12:29:10 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 #include <algorithm>
 
 using namespace std;
+
+Location::Location(){}
+Location::~Location(){}
 
 t_pointer Location::direc[8] = {
 	{"allow_methods",  &DataLocation::setAllowMethods},
@@ -69,8 +72,12 @@ DataLocation	Location::getLocation(std::string path){
 	std::list<DataLocation>::iterator it = _locations.begin(), ite = _locations.end();
 
 	while(it != ite){
-		if (it->getPathLocation().find(path) != string::npos)
+		if (validWord(it->getPathLocation(), path, '\0')){
 			return *it;
+		}
+/* 		if (it->getPathLocation().find(path) != string::npos){
+			return *it;
+		} */
 		it++;
 	}
 	return DataLocation();

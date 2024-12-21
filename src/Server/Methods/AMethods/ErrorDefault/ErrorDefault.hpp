@@ -1,28 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   HTTP.cpp                                           :+:      :+:    :+:   */
+/*   ErrorDefault.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/15 12:01:09 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/19 19:31:31 by rbutzke          ###   ########.fr       */
+/*   Created: 2024/12/20 15:08:58 by rbutzke           #+#    #+#             */
+/*   Updated: 2024/12/20 19:56:02 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "HTTP.hpp"
-#include <sstream>
+#pragma once
 
-void	HTTP::setBody(std::string body){
-	setHeaders("Content-length", body.length());
-	_body.setBody(body);
-}
+#include <string>
+#include <map>
 
-std::string	HTTP::getHTTP() const{
-	std::ostringstream http;
 
-	http << _statusLine;
-	http << _headers;
-	http << _body;
-	return http.str();
-}
+class ErrorDefault{
+	private:
+		static std::map<int, std::string> _error;
+		static void initError();
+		ErrorDefault(){};
+		~ErrorDefault(){};
+	public:
+		static std::string	getErrorDefault(int errorCode);
+		
+};
