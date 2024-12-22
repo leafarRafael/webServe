@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 10:31:14 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/19 17:04:36 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/21 18:58:03 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void		ErrorPage::setErrorPage(string &error_page){
 	findSetErrorCode(tokens, errorContent);
 	findSetErrorPage(tokens, errorContent);
 	_error.push_back(errorContent);
+	_instances++;
 }
 
 void	ErrorPage::findSetErrorCode(list<string> &tokens, ErrorCodeURL &errorContent){	
@@ -68,4 +69,18 @@ string	ErrorPage::getErrorPage(int errorCode){
 		++it;
 	}
 	return std::string();
+}
+
+
+ErrorPage&ErrorPage::operator=(ErrorPage const &origin){
+	if (this != &origin){
+		this->_error = origin._error;
+	}
+	return *this;
+}
+
+bool		ErrorPage::empty(){
+	if(_instances)
+		return false;
+	return true;
 }

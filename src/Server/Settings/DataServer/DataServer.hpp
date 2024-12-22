@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:33:31 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/19 17:03:56 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/21 18:24:35 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,15 @@
 
 class DataServer{
 	private:
-		Listen					_listen;
-		ErrorPage				_errorPage;
-		ServerName				_serverName;
-		MaxBodySize				_maxBodySize;
 		Root					_root;
 		Index					_index;
+		ErrorPage				_errorPage;
+		MaxBodySize				_maxBodySize;
+		Listen					_listen;
+		ServerName				_serverName;
 
 	public:
+		DataServer&operator=(DataServer const &origin);
 		//Listen Methods
 		void			setListen(std::string listen);
 		std::string		getIP();
@@ -53,5 +54,11 @@ class DataServer{
 		//Index Methods
 		void		setIndex(std::string index);
 		std::string	getIndex();
-		
+
+		MaxBodySize	getMaxBodySizeOBJ();
+		Root		getRootOBJ();
+		Index		getIndexOBJ();
+		ErrorPage	getErrorPageOBJ();
+		ServerName	getServerNameOBJ();
+
 };

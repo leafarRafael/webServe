@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:08:39 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/21 12:01:15 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/21 18:21:20 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,8 @@ void DataLocation::setReturn(std::string returnIndex){
 ////////////////////////////////////////////////////////////////////////////
 
 bool		DataLocation::empty(){
-	std::cout << "instances = " << _instances << "\n";
-	if (_instances){
+	if (_instances)
 		return 0;
-	}
 	return 1;
 }
 
@@ -98,4 +96,51 @@ bool		DataLocation::isAllowedMethod(std::string method){
 
 std::string DataLocation::getReturn(){
 	return _returnIndex.getReturn();
+}
+
+DataLocation &DataLocation::operator=(DataLocation const &origin){
+	if(this != &origin){
+		this->_instances = origin._instances;
+		this->_pathLocation = origin._pathLocation;
+		this->_root = origin._root;
+		this->_index = origin._index;
+		this->_errorPage = origin._errorPage;
+		this->_maxBodySize = origin._maxBodySize;
+		this->_autoIndex = origin._autoIndex;
+		this->_allowMethods = origin._allowMethods;
+		this->_returnIndex = origin._returnIndex;
+	}
+	return *this;
+}
+
+PathLocation 	DataLocation::getPathLocationOBJ(){
+	return this->_pathLocation;
+}
+
+Root		 	DataLocation::getRootOBJ(){
+	return this->_root;
+}
+
+Index 			DataLocation::getIndexOBJ(){
+	return this->_index;
+}
+
+ErrorPage		DataLocation::getErrorPageOBJ(){
+	return this->_errorPage;
+}
+
+MaxBodySize		DataLocation::getMaxBodySizeOBJ(){
+	return this->_maxBodySize;
+}
+
+AutoIndex		DataLocation::getAutoIndexOBJ(){
+	return this->_autoIndex;
+}
+
+AllowMethods	DataLocation::getAllowedMethodOBJ(){
+	return this->_allowMethods;
+}
+
+Return			DataLocation::getReturnOBJ(){
+	return this->_returnIndex;
 }

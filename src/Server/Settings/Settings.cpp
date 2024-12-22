@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:56:29 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/18 21:22:53 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/22 11:51:26 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	Settings::addServerDirective(list<string> &tokens){
 void	Settings::setDirective(string directive){
 	for(int i = 0; i < 6; i++){
 		if(directive.find(_ptrMethods[i].input) != string::npos){
-			(_server.*(_ptrMethods[i].function))(directive);
+			(_directiveServer.*(_ptrMethods[i].function))(directive);
 			break ;
 		}
 	}
@@ -57,65 +57,78 @@ void	Settings::setDirective(string directive){
 ////////////////////////////////////////////////////////////////////////////
 
 std::string Settings::getErrorPage(int statusCode){
-	return _server.getErrorPage(statusCode);
+	return _directiveServer.getErrorPage(statusCode);
 }
 
 std::string	Settings::getIP(){
-	return _server.getIP();
+	return _directiveServer.getIP();
 }
 
 std::string	Settings::getPort(){
-	return _server.getPort();
+	return _directiveServer.getPort();
 }
 
 std::string	Settings::getServerName(){
-	return _server.getServerName();
+	return _directiveServer.getServerName();
 }
 
 std::size_t	Settings::getMaxBodySize(){
-	return _server.getMaxBodySize();	
+	return _directiveServer.getMaxBodySize();	
 }
 
 std::string	Settings::getRoot(){
-	return _server.getRoot();
+	return _directiveServer.getRoot();
 }
 
 std::string	Settings::getIndex(){
-	return _server.getIndex();
+	return _directiveServer.getIndex();
 }
 
-DataLocation	Settings::getLocation(std::string	path){
-	return _location.getLocation(path);
+DataLocation	Settings::getDataLocationOBJ(std::string	path){
+	return _directiverLocation.getDataLocationOBJ(path);
 }
+
+DataServer		Settings::getDataServerOBJ(){
+	return _directiveServer;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////
 /////////////////////////// Methods Setters////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////
 
 void 		Settings::setLocation(std::string location){
-	_location.setLocation(location);
+	_directiverLocation.setLocation(location);
 }
 
 void		Settings::setErrorPage(std::string error_page){
-	_server.setErrorPage(error_page);
+	_directiveServer.setErrorPage(error_page);
 }
 
 void		Settings::setListen(std::string listen){
-	_server.setListen(listen);
+	_directiveServer.setListen(listen);
 }
 
 void		Settings::setServerName(std::string serverName){
-	_server.setServerName(serverName);
+	_directiveServer.setServerName(serverName);
 }
 
 void		Settings::setMaxBodySize(std::string maxBodySize){
-	_server.setMaxBodySize(maxBodySize);
+	_directiveServer.setMaxBodySize(maxBodySize);
 }
 
 void		Settings::setRoot(std::string root){
-	_server.setRoot(root);
+	_directiveServer.setRoot(root);
 }
 
 void		Settings::setIndex(std::string index){
-	_server.setIndex(index);
+	_directiveServer.setIndex(index);
+}
+
+Settings&Settings::operator=(Settings const &origin){
+	if (this != &origin){
+		this->_directiveServer = origin._directiveServer;
+		this->_directiverLocation = origin._directiverLocation;
+	}
+	return *this;
 }

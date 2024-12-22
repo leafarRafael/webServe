@@ -28,6 +28,7 @@ SRC_DIR				:= src/ src/utils \
 					src/Server/Settings/DataServer \
 					src/Server/Settings/Location \
 					src/Server/Settings/Location/DataLocation \
+					src/Server/Settings/Directives/ \
 					src/Server/Settings/Directives/AllowMethods \
 					src/Server/Settings/Directives/AutoIndex \
 					src/Server/Settings/Directives/ErrorPage \
@@ -40,7 +41,6 @@ SRC_DIR				:= src/ src/utils \
 					src/Server/Settings/Directives/Root \
 					src/Server/Settings/Directives/ServerName \
 					src/Server/Socket \
-					src/Server/Response \
 					src/Server/HTTP \
 					src/Server/HTTP/StatusLine \
 					src/Server/HTTP/Headers \
@@ -76,6 +76,7 @@ INCLUDE				:= -I src/Server \
 					-I src/ParseConf/ParseTokens \
 					-I src/Server/Settings/Location \
 					-I src/Server/Settings/Location/DataLocation \
+					-I src/Server/Settings/Directives/ \
 					-I src/Server/Settings/Directives/AllowMethods \
 					-I src/Server/Settings/Directives/AutoIndex \
 					-I src/Server/Settings/Directives/ErrorPage \
@@ -88,7 +89,6 @@ INCLUDE				:= -I src/Server \
 					-I src/Server/Settings/Directives/Root \
 					-I src/Server/Settings/Directives/ServerName \
 					-I src/utils\
-					-I src/Server/Response \
 					-I src/Server/HTTP \
 					-I src/Server/HTTP/StatusLine \
 					-I src/Server/HTTP/Headers \

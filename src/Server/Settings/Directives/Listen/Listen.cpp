@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 15:58:26 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/19 17:02:14 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/22 10:05:59 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 
 using namespace std;
-
-Listen::Listen():_ip("0.0.0.0"), _port("8080"){}
 
 void		Listen::setListen(string listen){
 	if (listen.empty())
@@ -31,6 +29,7 @@ void		Listen::setListen(string listen){
 	if (tokens.size() != 2)
 		throw (runtime_error("check the arguments of the listen directive"));
 	addPortIP(tokens);
+	_instances++;
 }
 
 void	Listen::addPortIP(std::list<std::string> tokens){
@@ -76,3 +75,14 @@ void	Listen::setIP(std::string ip){
 	}
 	_ip = ip;
 }
+
+Listen&Listen::operator=(Listen const &origin){
+	if (this != &origin){
+		DirectivesBase::operator=(origin);
+		this->_ip = origin._ip;
+		this->_port = origin._port;
+	}
+	return *this;
+}
+
+Listen::Listen():DirectivesBase(), _ip("0.0.0.0"), _port("8080"){}

@@ -16,6 +16,7 @@
 Client::Client(Server &server, int fdClient) : _server(server), _socketFdClient(fdClient) {
 	_request = NULL;
 	_startTime = std::time(0);
+	_maxSize = 100000;
 };
 
 Client::~Client() {}

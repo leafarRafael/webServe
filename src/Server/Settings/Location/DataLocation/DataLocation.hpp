@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:11:32 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/21 10:21:42 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/22 09:23:17 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ class DataLocation{
 		Return			_returnIndex;
 		
 	public:
+		DataLocation&operator=(DataLocation const &origin);
 		DataLocation():_instances(0){}
 		void setPathLocation(std::string pathLocation);
 		void setRoot(std::string root);
@@ -54,8 +55,16 @@ class DataLocation{
 		bool		getAutoIndexBool();
 		bool		isAllowedMethod(std::string method);
 		std::string getReturn();
-		bool			empty();
+		bool		empty();
+
+		PathLocation 	getPathLocationOBJ();
+		Root		 	getRootOBJ();
+		Index 			getIndexOBJ();
+		ErrorPage		getErrorPageOBJ();
+		MaxBodySize		getMaxBodySizeOBJ();
+		AutoIndex		getAutoIndexOBJ();
+		AllowMethods	getAllowedMethodOBJ();
+		Return			getReturnOBJ();
 
 };
-
-
+	

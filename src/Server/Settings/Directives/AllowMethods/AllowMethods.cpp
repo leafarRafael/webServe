@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 13:30:58 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/17 15:20:57 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/22 09:56:53 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	AllowMethods::setAllowMethods(std::string allowMethods){
 	normalize(allowMethods, "allow_methods");
 	list<string> tokens = split<string, char, list<string> >(allowMethods, ' ');
 	_allowMethods = tokens;
+	_instances++;
 }
 
 std::list<std::string>	AllowMethods::getAllowMethods(){
@@ -35,3 +36,13 @@ bool AllowMethods::isAllowedMethod(std::string method){
 		return true;
 	return false;
 }
+
+AllowMethods&AllowMethods::operator=(const AllowMethods &origin){
+	if(this != &origin){
+		DirectivesBase::operator=(origin);
+		this->_allowMethods = origin._allowMethods;
+	}
+	return *this;
+}
+
+AllowMethods::AllowMethods() : DirectivesBase(){}

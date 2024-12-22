@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 09:44:27 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/21 12:13:52 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/21 18:31:28 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ DataLocation FindLocation::findLocation(Server &server, Request &request){
 	if (path.length() == 1){
 		return location;
 	}
-	location = server.getLocation(path);
+	location = server.getDataLocationOBJ(path);
 	if (not location.empty()){
 		return location;
 	}
@@ -35,7 +35,7 @@ DataLocation	FindLocation::validIfHaveLocation(std::string path, Server &server)
 
 	prefix = getPrefix(path);
 	while (not prefix.empty()){
-		location = server.getLocation(prefix);
+		location = server.getDataLocationOBJ(prefix);
 		if (not location.empty()){
 			return location;
 		}
@@ -56,7 +56,6 @@ std::string	FindLocation::getPrefix(std::string path){
 		if (prefix[index] == '/')
 			return prefix;
 		prefix.erase(index, 1);
-		std::cout << "prefix: " << prefix << "\n";
 		index--;
 	}
 	return prefix;

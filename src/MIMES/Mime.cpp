@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:05:36 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/20 12:36:59 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/21 13:07:59 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,17 +99,27 @@ void	Mime::addMime(std::string &mime, std::string type){
 	}
 	key = *it;
 	tokens.erase(it);
-	_mimes[key] = tokens;
+	std::list<std::string>::iterator itTok;
+	for(itTok = tokens.begin(); itTok != tokens.end(); itTok++){
+		_mimes[*itTok] = key + *itTok;
+	}
 }
 
-/* std::string	Mime::getMime(std::string mime){
-	std::list<std::string > keyValue  = split<std::string, char, std::list<std::string> >(mime, '/');
-	if (not _mimes.count(keyValue.front()))
+std::string	Mime::getMime(std::string path){
+	std::string fileExtension = getExtension(path);
+
+	if (not _mimes.count(fileExtension))
 		return std::string();
-	std::list<std::string>::iterator it;
-	it = find(_mimes[keyValue.front()].begin(), _mimes[keyValue.front()].end(), keyValue.back());
-	if (it == _mimes[keyValue.front()].end())
-		return std::string();
-	
+	return _mimes[fileExtension];	
 }
- */
+
+std::string	Mime::getExtension(std::string path){
+	std::list<std::string>	tokens;
+
+	if (path == "/")
+		return "html";
+	tokens = split<std::string, char, std::list<std::string> >(path, '.');
+	if (tokens.empty())
+		return "html";
+	return tokens.back();
+}

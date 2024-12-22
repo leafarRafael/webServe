@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 13:21:11 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/17 18:16:49 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/22 09:58:21 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void		AutoIndex::setAutoIndex(std::string autoIndex){
 	if (tokens.size() != 1)
 		throw (runtime_error("Error: multiple assignments for autoindex directive"));
 	_autoIndex = tokens.front();
+	_instances++;
 }
 
 std::string	AutoIndex::getAutoIndex(){
@@ -41,3 +42,13 @@ bool		AutoIndex::getAutoIndexBool(){
 		return true;
 	return false;	
 }
+
+AutoIndex&AutoIndex::operator=(AutoIndex const &origin){
+	if (this != &origin){
+		DirectivesBase::operator=(origin);
+		this->_autoIndex = origin._autoIndex;
+	}
+	return *this;
+}
+
+AutoIndex::AutoIndex(): DirectivesBase(){}

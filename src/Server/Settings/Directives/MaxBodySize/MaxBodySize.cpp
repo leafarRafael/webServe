@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:23:54 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/17 10:41:57 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/22 10:17:18 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,6 @@ size_t	KB = 1024;
 size_t	MB = KB * 1024;
 size_t	GB = MB * 1024;
 
-MaxBodySize::MaxBodySize():_maxBodySize(10000000){}
-
 void	MaxBodySize::setMaxBodySize(string maxBodySize){
 	if (maxBodySize.empty())
 		return ;
@@ -32,6 +30,7 @@ void	MaxBodySize::setMaxBodySize(string maxBodySize){
 		return ;
 	getFormatValue(maxBodySize);
 	setValue();	
+	_instances++;
 }
 
 std::size_t	MaxBodySize::getMaxBodySize(){
@@ -71,3 +70,15 @@ void	MaxBodySize::setValue(){
 	else
 		throw runtime_error("unknown unit of measurement");;
 }
+
+MaxBodySize &MaxBodySize::operator=(MaxBodySize const &origin){
+	if (this != &origin){
+		DirectivesBase::operator=(origin);
+		this->_format = origin._format;
+		this->_maxBodySize = origin._maxBodySize;
+		this->_value = origin._value;
+	}
+	return *this;
+}
+
+MaxBodySize::MaxBodySize(): DirectivesBase(), _maxBodySize(10000000){}

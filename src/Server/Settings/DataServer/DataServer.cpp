@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:35:00 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/18 20:38:42 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/21 18:00:18 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,4 +70,36 @@ void		DataServer::setRoot(std::string root){
 
 void		DataServer::setIndex(std::string index){
 	_index.setIndex(index);
+}
+
+DataServer &DataServer::operator=(DataServer const &origin){
+	if (this != &origin){
+		this->_listen = origin._listen;
+		this->_errorPage = origin._errorPage;
+		this->_serverName = origin._serverName;
+		this->_maxBodySize = origin._maxBodySize;
+		this->_root = origin._root;
+		this->_index = origin._index;
+	}
+	return *this;
+}
+
+MaxBodySize	DataServer::getMaxBodySizeOBJ(){
+	return this->_maxBodySize;
+}
+
+Root		DataServer::getRootOBJ(){
+	return this->_root;
+}
+
+Index		DataServer::getIndexOBJ(){
+	return this->_index;
+}
+
+ErrorPage	DataServer::getErrorPageOBJ(){
+	return this->_errorPage;
+}
+
+ServerName	DataServer::getServerNameOBJ(){
+	return this->_serverName;
 }

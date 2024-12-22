@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:41:20 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/21 12:23:56 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/21 12:33:46 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 #include <sstream>
 #include <iostream>
 #include "utils.hpp"
-
-
 
 void		ParseValidation::validFileExtension(std::string file){
 	if (file.substr(file.length() -5, file.length()).find(".conf") == std::string::npos)
@@ -78,23 +76,3 @@ void	ParseValidation::validDirectivesLocation(std::string &buffer){
 	if (root == 0)
 		throw (std::runtime_error("Directive root in scope location not found."));
 }
-
-/* bool validWord(std::string buffer, std::string toFind, char c){
-	std::size_t	pos;
-	char		prefix, sufix;
-
-	pos = buffer.find(toFind);
-	if (pos == std::string::npos)
-		return false;
-	sufix = buffer[toFind.length() + pos];
-	if (pos != 0){
-		prefix = buffer[pos-1];
-		if (!isspace(prefix) || (!isspace(sufix) && sufix != c))
-			return false;
-	}
-	if (pos == 0){
-		if (!isspace(sufix) && sufix != c)
-			return false;
-	}
-	return true;
-} */

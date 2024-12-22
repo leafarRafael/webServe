@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:30:08 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/21 12:29:10 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/21 18:31:28 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,17 +68,21 @@ void	Location::setDirective(string directive, DataLocation &data){
 	}
 }
 
-DataLocation	Location::getLocation(std::string path){
+DataLocation	Location::getDataLocationOBJ(std::string path){
 	std::list<DataLocation>::iterator it = _locations.begin(), ite = _locations.end();
 
 	while(it != ite){
 		if (validWord(it->getPathLocation(), path, '\0')){
 			return *it;
 		}
-/* 		if (it->getPathLocation().find(path) != string::npos){
-			return *it;
-		} */
 		it++;
 	}
 	return DataLocation();
+}
+
+Location&Location::operator=(Location const &origin){
+	if (this != &origin){
+		this->_locations = origin._locations;
+	}
+	return *this;
 }

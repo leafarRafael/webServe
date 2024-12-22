@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:28:27 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/21 10:31:14 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/22 11:51:33 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,29 @@
 
 class AMethods : public FindLocation{
 	protected:
-		HTTP		_http;
-		std::string	_method;
+		HTTP			_http;
 
-		int			_statusCode;
-		std::string	_statusMensagen;
-		std::string	_contentType;
-		std::string	_bufferBody;
+		Root			_root;
+		Index			_index;
+		ErrorPage		_errorPage;
+		MaxBodySize		_maxBodySize;
+		AutoIndex		_autoIndex;
+		AllowMethods	_allowMethods;
+		Return			_returnIndex;
+
+		int				_statusCode;
+		std::string		_statusMensagen;
+		std::string		_contentType;
+		std::string		_bufferBody;
 
 	public:
 		AMethods();
 		virtual ~AMethods();
+		std::string 	getFile(std::string url);
+		void			selectDirectives(Server &server, Request &request);
 		std::string		getBufferFile(std::string fileName);
 		bool			errorRequest(Server &server, Request &request);
 		virtual HTTP	createHTTP(Server &server, Request &request) = 0;
-		void			name();
 		HTTP 			getHTTP();
 };
 
