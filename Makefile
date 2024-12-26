@@ -18,6 +18,8 @@ SRC_DIR				:= src/ src/utils \
 					src/MIMES \
 					src/Server \
 					src/Server/Methods/AMethods \
+					src/Server/Methods/CGI \
+					src/Server/Methods/AMethods/GetFile \
 					src/Server/Methods/AMethods/FindLocation \
 					src/Server/Methods/AMethods/ErrorDefault \
 					src/Server/Methods/GET \
@@ -65,6 +67,8 @@ SRC_DIR				:= src/ src/utils \
 INCLUDE				:= -I src/Server \
 					-I src/MIMES \
 					-I src/Server/Methods/AMethods \
+					-I src/Server/Methods/CGI \
+					-I src/Server/Methods/AMethods/GetFile \
 					-I src/Server/Methods/AMethods/FindLocation \
 					-I src/Server/Methods/AMethods/ErrorDefault \
 					-I src/Server/Methods/GET \

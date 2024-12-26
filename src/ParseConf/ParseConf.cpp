@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:35:36 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/19 13:45:31 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/22 12:11:33 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,6 @@ void	ParseConf::setServerScope(std::string &serverDirectives, Server &server){
 	removeToString(serverDirectives, "{");
 	removeToString(serverDirectives, "}");
 	trim(serverDirectives);
-	server.setServerDirective(serverDirectives);
+	server.setDataServer(serverDirectives);
 }
 

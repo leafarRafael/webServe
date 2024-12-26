@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 09:41:28 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/21 10:54:23 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/22 13:54:41 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@
 
 class FindLocation{
 	private:
-		DataLocation	validIfHaveLocation(std::string path, Server &server);
-		std::string		getPrefix(std::string path);
+		static DataLocation	validIfHaveLocation(std::string path, Server &server);
+		static std::string	getPrefix(std::string path);
+		FindLocation(){};
+		~FindLocation(){};
 	
-	protected:
-		DataLocation findLocation(Server &server, Request &request);	
+	public:
+		static DataLocation findLocation(Server &server, Request &request);	
 };

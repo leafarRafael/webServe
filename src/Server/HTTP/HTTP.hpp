@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 17:32:30 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/20 15:45:26 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/22 14:01:40 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,15 @@
 
 class HTTP{
 	private:
-
-	public:
 		StatusLine		_statusLine;
 		Headers			_headers;
 		Body			_body;
+
+	public:
+		StatusLine		getStatusLine() const;
+		Headers			getHeaders() const;
+		Body			getBody() const;
+	
 		void		setBody(std::string body);
 		std::string	getHTTP() const;
 

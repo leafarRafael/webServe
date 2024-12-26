@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:36:23 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/22 11:51:40 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/24 13:16:09 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,34 +16,57 @@
 #include "ErrorDefault.hpp"
 #include "unistd.h"
 #include <fcntl.h>
+#include "FindLocation.hpp"
+#include "GetFile.hpp"
+
+AMethods::~AMethods(){}
+
+AMethods::AMethods(){
+	_statusCode = 0;
+	_statusMensagen = "";
+	_contentType = "";
+	_bufferBody = "";
+	std::time_t		time = 0;
+	_http.setHeaders("Server", "MyServer");
+	_http.setHeaders("Date", getCurrentDateTime(time));
+	_http.setHeaders("Connection", "close");
+}
+
+DataLocation	AMethods::findDataLocation(Server &server, Request &request){
+	return FindLocation::findLocation(server, request);
+}
 
 void	AMethods::selectDirectives(Server &server, Request &request)
 {
 	DataLocation	dataLocation;
 	DataServer		dataServer;
-	
+
+	dataLocation = findDataLocation(server, request);
 	dataServer = server.getDataServerOBJ();
-	dataLocation = findLocation(server, request);
+	addGlobalDirectives(dataServer);
 	if (not dataLocation.empty())
-	{
-		_root = dataLocation.getRootOBJ();
-		_index = dataLocation.getIndexOBJ();
-		_errorPage = dataLocation.getErrorPageOBJ();
-		_maxBodySize = dataLocation.getMaxBodySizeOBJ();
-		_autoIndex = dataLocation.getAutoIndexOBJ();
-		_allowMethods = dataLocation.getAllowedMethodOBJ();
-		_returnIndex= dataLocation.getReturnOBJ();
-	}
-	if (_root.empty())
-		_root = dataServer.getRootOBJ();
-	if (_index.empty())
-		_index = dataServer.getIndexOBJ();
-	if (_errorPage.empty())
-		_errorPage = dataServer.getErrorPageOBJ();
-	if (_maxBodySize.empty())
-		_errorPage = dataServer.getErrorPageOBJ();
+		addLocationDirectives(dataLocation);
 }
- 
+
+void	AMethods::addGlobalDirectives(DataServer dataServer){
+	_root = dataServer.getRootOBJ();
+	_index = dataServer.getIndexOBJ();
+	_errorPage = dataServer.getErrorPageOBJ();
+	_errorPage = dataServer.getErrorPageOBJ();
+}
+
+void	AMethods::addLocationDirectives(DataLocation dataLocation){
+	_index = dataLocation.getIndexOBJ();
+	_allowMethods = dataLocation.getAllowedMethodOBJ();
+	_returnIndex = dataLocation.getReturnOBJ();
+	_autoIndex = dataLocation.getAutoIndexOBJ();
+	if (not dataLocation.getRootOBJ().empty())
+		_root = dataLocation.getRootOBJ();
+	if (not dataLocation.getErrorPageOBJ().empty())
+		_errorPage = dataLocation.getErrorPageOBJ();
+	if (not dataLocation.getMaxBodySizeOBJ().empty())
+		_maxBodySize = dataLocation.getMaxBodySizeOBJ();
+}
 
 HTTP AMethods::getHTTP()
 {	
@@ -53,8 +76,7 @@ HTTP AMethods::getHTTP()
 	return _http;
 }	
 
-
-bool	AMethods::errorRequest(Server &server, Request &request)
+bool	AMethods::errorRequest(Request &request)
 {
 	int	error = 0;
 
@@ -64,41 +86,11 @@ bool	AMethods::errorRequest(Server &server, Request &request)
 	_statusCode = error;
 	_statusMensagen = "not ok";
 	_contentType = "text/html";
-	_bufferBody = server.getErrorPage(error);
+	_bufferBody = _errorPage.getErrorPage(error);
 	if (_bufferBody.empty())
 		_bufferBody = ErrorDefault::getErrorDefault(error);
 	return true;
 }
-
-std::string	AMethods::getBufferFile(std::string fileName)
-{
-	std::ifstream file(fileName.c_str(), std::ios::in | std::ios::binary);
-
-	if(!file)
-	{
-		_statusCode = 200;
-		_statusMensagen = "ok";	
-		return std::string();
-	}
-	_statusCode = 200;
-	_statusMensagen = "ok";
-	std::string buffer((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
-	file.close();
-	return buffer;
-}
-
-std::string	isDirectory(std::string fileName)
-{
-	int fd;
-
-	fd = open(fileName.c_str(),  O_DIRECTORY);
-	if (fd != -1)
-	{
-		std::cout << "Is Directory\n";
-	} 
-	return std::string();
-}
-
 
 std::string AMethods::getFile(std::string url){
 	std::size_t index;
@@ -122,16 +114,29 @@ std::string AMethods::getFile(std::string url){
 	return file;
 }
 
+std::string	AMethods::getBufferFile(std::string fileName){
+	std::string buffer;
+	DIR *directory;
 
-AMethods::~AMethods(){}
-AMethods::AMethods()
-{
-	_statusCode = 0;
-	_statusMensagen = "";
-	_contentType = "";
-	_bufferBody = "";
-	std::time_t		time = 0;
-	_http.setHeaders("Server", "MyServer");
-	_http.setHeaders("Date", getCurrentDateTime(time));
-	_http.setHeaders("Connection", "close");
+	directory = opendir(fileName.c_str());
+	if (directory != NULL){
+		if (not _index.empty())
+			buffer = GetFile::getBufferFile(fileName + _index.getIndex());
+		else if (_index.empty() && (not _autoIndex.empty() && _autoIndex.getAutoIndexBool()))
+			buffer = GetFile::getBufferDirectory(directory, fileName);
+		else
+			buffer.clear();
+		closedir(directory);
+	}
+	else
+		buffer = GetFile::getBufferFile(fileName);
+	if(buffer.empty())
+	{
+		_statusCode = 404;
+		_statusMensagen = "not ok";	
+		return std::string();
+	}
+	_statusCode = 200;
+	_statusMensagen = "ok";
+	return buffer;
 }

@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Get.hpp                                            :+:      :+:    :+:   */
+/*   GetFile.hpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/20 10:22:25 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/24 13:38:12 by rbutzke          ###   ########.fr       */
+/*   Created: 2024/12/22 12:15:56 by rbutzke           #+#    #+#             */
+/*   Updated: 2024/12/22 15:09:59 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
+#include <string>
+#include <sys/types.h>
+#include <dirent.h>
 
-#include "AMethods.hpp"
-
-class Get: public AMethods{
+class GetFile{
 	private:
-		std::string	validHeaders(Request &request);
-
+		GetFile(){};
+		~GetFile(){};
+	
 	public:
-		Get();
-		~Get();
-		HTTP	createHTTP(Server &server, Request &request);
+		static std::string getBufferDirectory(DIR *directory, std::string &path);
+		static std::string getBufferFile(std::string path);
 };
-

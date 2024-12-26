@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:38:03 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/22 11:52:51 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/22 12:02:11 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	Server::response(int fd, Request *request) {
 	methods = defineMethods(request->getMethod());
 	methods->selectDirectives(*this, *request);
 
-	if (methods->errorRequest(*this, *request)){
-		methods->errorRequest(*this, *request);
+	if (methods->errorRequest(*request)){
+		methods->errorRequest(*request);
 		http = methods->getHTTP();
 		send(fd, http.getHTTP().c_str(), http.getHTTP().length(), 0);
 		return ;

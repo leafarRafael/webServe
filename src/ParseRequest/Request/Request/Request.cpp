@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:25:54 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/13 13:19:23 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/26 13:07:21 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void	Request::isMultPartBody(){
 	for (it = values.begin(); it != values.end(); it++){
 		string val = *it;
 		if (val.find(MPART) != string::npos){
-			_isMultPartBody = true;
+			_isSimpleBody = true;;
 			_haveBody = true;
 			break ;
 		}
