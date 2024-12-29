@@ -18,9 +18,11 @@ SRC_DIR				:= src/ src/utils \
 					src/MIMES \
 					src/Server \
 					src/Server/Methods/AMethods \
-					src/Server/Methods/CGI \
+					src/Server/Methods/AMethods/DataRequest \
+					src/Server/Methods/AMethods/DataDirectives \
+					src/Server/Methods/AMethods/DataDirectives/FindLocation \
+					src/Server/Methods/AMethods/CGI \
 					src/Server/Methods/AMethods/GetFile \
-					src/Server/Methods/AMethods/FindLocation \
 					src/Server/Methods/AMethods/ErrorDefault \
 					src/Server/Methods/GET \
 					src/ParseConf \
@@ -57,7 +59,6 @@ SRC_DIR				:= src/ src/utils \
 					src/ParseRequest/Request/ARequestLine \
 					src/ParseRequest/Request/ABody \
 					src/ParseRequest/Request/ABody/DataBody \
-					src/ParseRequest/Request/ABody/MultPart \
 					src/ParseRequest/Request/ABody/Chunked \
 					src/ParseRequest/Request/ABody/SimpleBody \
 					src/Client
@@ -67,9 +68,11 @@ SRC_DIR				:= src/ src/utils \
 INCLUDE				:= -I src/Server \
 					-I src/MIMES \
 					-I src/Server/Methods/AMethods \
-					-I src/Server/Methods/CGI \
+					-I src/Server/Methods/AMethods/DataRequest \
+					-I src/Server/Methods/AMethods/DataDirectives \
+					-I src/Server/Methods/AMethods/DataDirectives/FindLocation \
+					-I src/Server/Methods/AMethods/CGI \
 					-I src/Server/Methods/AMethods/GetFile \
-					-I src/Server/Methods/AMethods/FindLocation \
 					-I src/Server/Methods/AMethods/ErrorDefault \
 					-I src/Server/Methods/GET \
 					-I src/Server/Socket \
@@ -107,7 +110,6 @@ INCLUDE				:= -I src/Server \
 					-I src/ParseRequest/Request/ARequestLine \
 					-I src/ParseRequest/Request/ABody \
 					-I src/ParseRequest/Request/ABody/DataBody \
-					-I src/ParseRequest/Request/ABody/MultPart \
 					-I src/ParseRequest/Request/ABody/Chunked \
 					-I src/ParseRequest/Request/ABody/SimpleBody \
 					-I src/Client

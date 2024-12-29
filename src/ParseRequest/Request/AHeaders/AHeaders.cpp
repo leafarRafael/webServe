@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 16:06:54 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/13 12:11:08 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/26 19:54:48 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ void	AHeaders::addNewElement(string key, string value){
 }
 
 list<string>	AHeaders::getHeader(string key) const {
-	if (not _header.count(key) || _header.empty())
+	if (_header.empty())
+		return list<std::string>();
+	if (not _header.count(key))
 		return list<std::string>();
 	return _header.at(key);
 }

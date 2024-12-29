@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:25:54 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/26 13:07:21 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/26 13:45:58 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 #include "utils.hpp"
 #include <cstring>
 #include "algorithm"
-#include "MultPart.hpp"
 #include "Chunked.hpp"
 #include "SimpleBody.hpp"
 
@@ -59,9 +58,8 @@ int		Request::setBody(string &buffer){
 	
 	if (not _haveBody)
 		return 0;
-	if (_isMultPartBody == true){
-		string	endBoundary = static_cast<MultPart *>(body)->getEndBoundary();
-		if (buffer.find(endBoundary) == string::npos)
+	if (_isSimpleBody == true){
+		if (buffer.length() < body->getLengthBody())
 			throw Request::RequestException("");
 		if ((error = validBodySize(buffer)))
 			return error;
@@ -76,24 +74,13 @@ int		Request::setBody(string &buffer){
 		_parsedBody = true;
 		return 0;
 	}
-	if (_isSimpleBody == true){
-		if (buffer.length() < body->getLengthBody())
-			throw Request::RequestException("");
-		if ((error = validBodySize(buffer)))
-			return error;
-		body->parseBody(buffer);
-		_parsedBody = true;
-		return 0;
-	}
 	return 0;
 }
 
 void	Request::instanceBody(){
 	if (not _haveBody)
 		return ;
-	if (_isMultPartBody && _isSimpleBody)
-		initMultPart();
-	if (not _isMultPartBody && _isSimpleBody)
+	if (_isSimpleBody)
 		initSimpleBody();
 	if (_isChunkedBody)
 		initChunked();
@@ -105,19 +92,6 @@ void	Request::initSimpleBody(){
 	body = simpleBody;	
 }
 
-void	Request::initMultPart(){
-	MultPart *mult = new MultPart();
-
-	string	temp = getHeader("Content-Type").front();
-	if (temp.find("boundary") != string::npos){
-		temp.erase(0, temp.find("=")+1);
-		mult->setBondary(temp);
-		mult->setLengthBody(_bodyLength);
-	}
-	body = mult;
-}
-
-
 void	Request::initChunked(){
 	Chunked *chunked = new Chunked();
 
@@ -126,27 +100,9 @@ void	Request::initChunked(){
 
 
 void	Request::checkBodyFormatting(){
-	isMultPartBody();
 	isSimpleBody();
 	isChunkedBody();
 	instanceBody();
-}
-
-void	Request::isMultPartBody(){
-	if (not _header.count(CTYPE))
-		return ;
-	list<string> values = getHeader(CTYPE);
-	list<string>::iterator it;
-	if (values.empty())
-		return ;
-	for (it = values.begin(); it != values.end(); it++){
-		string val = *it;
-		if (val.find(MPART) != string::npos){
-			_isSimpleBody = true;;
-			_haveBody = true;
-			break ;
-		}
-	}
 }
 
 void	Request::isSimpleBody(){

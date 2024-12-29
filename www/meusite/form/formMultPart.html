@@ -23,12 +23,27 @@
             padding: 8px;
             box-sizing: border-box;
         }
+        .button-container {
+            text-align: center;
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
     </style>
 </head>
 <body>
-
     <h2 style="text-align: center;">Formulário de Cadastro</h2>
-
     <form enctype="multipart/form-data" method="post">
         <table>
             <tr>
@@ -44,8 +59,10 @@
                 <td><input type="file" name="foto" accept="image/*"></td>
             </tr>
         </table>
-        <div style="text-align: center; margin-top: 20px;">
+        <div class="button-container">
             <button type="submit">Enviar</button>
+            <button type="button" onclick="window.location.href='/'">Voltar para Página Principal</button>
+            <button type="button" onclick="window.location.href='/cgi/getUploadPage.py/update/'">Galeria de Imagens</button>
         </div>
     </form>
 

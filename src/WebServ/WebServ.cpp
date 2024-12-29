@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 11:58:02 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/20 15:54:53 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/26 13:56:12 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,35 +135,4 @@ void	WebServ::ereaseClient(Client *client){
 	if (it == _client.end())
 		return ;
 	_client.erase(it);
-}
-
-void exemploRequestParseado(Request *request){
-	cout << "Method: " << request->getMethod() << "\n";
-	cout << "Host: " << request->getHost() << "\n";
-	cout << "Path: " << request->getPath() << "\n";
-	cout << "Version: " << request->getVersion() << "\n";
-
-	putMapList(request->getAllHeader());
-	cout << "\n";
- 	ABody *ptr = request->getBody();
-	if (ptr != NULL){
-		list<DataBody>	body;
-	 	body = ptr->getDataBody();
-		for (list<DataBody>::iterator it = body.begin(); it != body.end(); it++){
-			putMapList(it->getAllHeaders());
-			list<string> temp = it->getHeaders("Content-Type");
-			if (not temp.empty()){
-				list<string> t = it->getHeaders("Content-Disposition");
-				list<string>::iterator i = t.end();
-				i--;
-				i->erase(0, 10);
-				i->erase(i->size()-1, 1);
-				ofstream	outfile(i->c_str());
-				if (!outfile.is_open())
-					cout << "nao abriu\n";
-				if(it->getContent().length() > 60)
-					outfile << it->getContent();
-			}
-		}
-	}
 }

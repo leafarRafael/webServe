@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:28:27 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/23 17:06:19 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/29 13:11:25 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,36 +22,31 @@
 #include "HTTP.hpp"
 #include "Request.hpp"
 #include "Server.hpp"
+#include "CGI.hpp"
+#include "DataRequest.hpp"
+#include "DataDirectives.hpp"
 
-class AMethods {
+
+class AMethods : public DataRequest, public DataDirectives{
 	protected:
+		CGI				_cgi;
 		HTTP			_http;
-		Root			_root;
-		Index			_index;
-		ErrorPage		_errorPage;
-		MaxBodySize		_maxBodySize;
-		AutoIndex		_autoIndex;
-		AllowMethods	_allowMethods;
-		Return			_returnIndex;
+		std::string		_pathTraslated;
+		std::string		_pathCGITraslated;
 
 		int				_statusCode;
 		std::string		_statusMensagen;
 		std::string		_contentType;
 		std::string		_bufferBody;
-
-		std::string 	getFile(std::string url);
-		void			addLocationDirectives(DataLocation dataLocation);
-		void			addGlobalDirectives(DataServer dataServer);
-		
 		std::string		getBufferFile(std::string fileName);
 
 	public:
 		AMethods();
 		virtual ~AMethods();
-
 		HTTP 			getHTTP();
-		DataLocation	findDataLocation(Server &server, Request &request);
 		bool			errorRequest(Request &request);
-		void			selectDirectives(Server &server, Request &request);
+		std::string 	getFile(std::string url);
+
+		std::string		commonGatewayInterface(Server &server);
 		virtual HTTP	createHTTP(Server &server, Request &request) = 0;
 };

@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:36:23 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/24 13:16:09 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/29 18:31:20 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,68 +16,60 @@
 #include "ErrorDefault.hpp"
 #include "unistd.h"
 #include <fcntl.h>
-#include "FindLocation.hpp"
 #include "GetFile.hpp"
+
+#include "FindLocation.hpp"
 
 AMethods::~AMethods(){}
 
-AMethods::AMethods(){
+std::string		AMethods::commonGatewayInterface(Server &server){
+	if (not _path_info.empty()){
+		DataLocation location = FindLocation::findLocation(server, _path_info);
+		if (not location.empty())
+			_pathTraslated = location.getRoot();
+		else
+			_pathTraslated = server.getDataServerOBJ().getRoot() + _path_info;			
+	}
+	if (not _path_cgi.empty()){
+		DataLocation location = FindLocation::findLocation(server, _path_cgi);
+		if (not location.empty())
+			_pathCGITraslated = location.getRoot() + getFile(_path_cgi);
+		else
+			_pathCGITraslated = server.getDataServerOBJ().getRoot() + getFile(_path_cgi);
+	}
+	_cgi.setPathCGI(_pathCGITraslated);
+	_cgi.setPathTraslated(_pathTraslated);
+	_cgi.setPathInfo(_path_info);
+	_cgi.setQueryString(_query_string);
+	_cgi.setRequestMethod(_method);
+	_cgi.setBody(_body);
+	_cgi.setContentLength(_content_length);
+	_cgi.setContentType(_content_type);
+	_cgi.setHTTPVersion(_http_version);
+	_cgi.setServerName(server.getDataServerOBJ().getServerName());
+	return _cgi.commonGatewayInterface();
+}
+
+AMethods::AMethods() : DataRequest(){
 	_statusCode = 0;
 	_statusMensagen = "";
 	_contentType = "";
 	_bufferBody = "";
+	_pathTraslated = "";
 	std::time_t		time = 0;
 	_http.setHeaders("Server", "MyServer");
 	_http.setHeaders("Date", getCurrentDateTime(time));
 	_http.setHeaders("Connection", "close");
 }
 
-DataLocation	AMethods::findDataLocation(Server &server, Request &request){
-	return FindLocation::findLocation(server, request);
-}
-
-void	AMethods::selectDirectives(Server &server, Request &request)
-{
-	DataLocation	dataLocation;
-	DataServer		dataServer;
-
-	dataLocation = findDataLocation(server, request);
-	dataServer = server.getDataServerOBJ();
-	addGlobalDirectives(dataServer);
-	if (not dataLocation.empty())
-		addLocationDirectives(dataLocation);
-}
-
-void	AMethods::addGlobalDirectives(DataServer dataServer){
-	_root = dataServer.getRootOBJ();
-	_index = dataServer.getIndexOBJ();
-	_errorPage = dataServer.getErrorPageOBJ();
-	_errorPage = dataServer.getErrorPageOBJ();
-}
-
-void	AMethods::addLocationDirectives(DataLocation dataLocation){
-	_index = dataLocation.getIndexOBJ();
-	_allowMethods = dataLocation.getAllowedMethodOBJ();
-	_returnIndex = dataLocation.getReturnOBJ();
-	_autoIndex = dataLocation.getAutoIndexOBJ();
-	if (not dataLocation.getRootOBJ().empty())
-		_root = dataLocation.getRootOBJ();
-	if (not dataLocation.getErrorPageOBJ().empty())
-		_errorPage = dataLocation.getErrorPageOBJ();
-	if (not dataLocation.getMaxBodySizeOBJ().empty())
-		_maxBodySize = dataLocation.getMaxBodySizeOBJ();
-}
-
-HTTP AMethods::getHTTP()
-{	
+HTTP AMethods::getHTTP(){	
 	_http.setStatusResponse(_statusCode, _statusMensagen);
 	_http.setHeaders("Content-Type", _contentType);
  	_http.setBody(_bufferBody);	
 	return _http;
 }	
 
-bool	AMethods::errorRequest(Request &request)
-{
+bool	AMethods::errorRequest(Request &request){
 	int	error = 0;
 
 	error = request.getParserError();
@@ -90,28 +82,6 @@ bool	AMethods::errorRequest(Request &request)
 	if (_bufferBody.empty())
 		_bufferBody = ErrorDefault::getErrorDefault(error);
 	return true;
-}
-
-std::string AMethods::getFile(std::string url){
-	std::size_t index;
-	std::string file;
-
-	if (url.size() == 1 && url[0] == '/')
-		return url += _index.getIndex();
-	index = url.size();
-	while (index != 0)
-	{
-		if (url[index] == '/')
-			break ;
-		index--;
-	}
-	index++;
-	while (index != url.size())
-	{
-		file += url[index];
-		index++;
-	}
-	return file;
 }
 
 std::string	AMethods::getBufferFile(std::string fileName){
@@ -139,4 +109,26 @@ std::string	AMethods::getBufferFile(std::string fileName){
 	_statusCode = 200;
 	_statusMensagen = "ok";
 	return buffer;
+}
+
+std::string AMethods::getFile(std::string url){
+	std::size_t	index;
+	std::string	file;
+	
+	if (url.size() == 1 && url[0] == '/')
+		return url += _index.getIndex();
+	index = url.size();
+	while (index != 0)
+	{
+		if (url[index] == '/')
+			break ;
+		index--;
+	}
+	index++;
+	while (index < url.size())
+	{
+		file += url[index];
+		index++;
+	}
+	return file;
 }

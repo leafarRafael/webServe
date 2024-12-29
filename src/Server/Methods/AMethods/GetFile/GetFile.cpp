@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 12:19:23 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/24 13:15:30 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/27 12:14:29 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,6 @@
 #include <sstream>
 #include "utils.hpp"
 #include <list>
-
-std::string createFile(std::string fileName);
-std::string creatNewSubDirectory(DIR *directory, std::string &path);
-
-#define FILE_ADDR "src/Server/Methods/AMethods/GetFile/directory.html"
-#define REPLACEMENT_POIT "#*REPLACEMENT_POIT*#"
-#define HTML_TO_SUBDIRECTORY "<li><span class=\"toggle\"></span><span>"
 
 std::string GetFile::getBufferDirectory(DIR *directory, std::string &path){
 	std::string		dataDirectoryHTML;
@@ -42,7 +35,7 @@ std::string GetFile::getBufferDirectory(DIR *directory, std::string &path){
 	return html;
 }
 
-std::string creatNewSubDirectory(DIR *directory, std::string &path){
+std::string GetFile::creatNewSubDirectory(DIR *directory, std::string &path){
 	std::ostringstream	html;
 	struct dirent		*dirent;
 	std::string			pathName = "/";
@@ -70,7 +63,7 @@ std::string creatNewSubDirectory(DIR *directory, std::string &path){
 	return html.str();
 }
 
-std::string createFile(std::string fileName){
+std::string GetFile::createFile(std::string fileName){
 	std::string 		htlmOpenTag = "<li><span>";
 	std::string 		htlmCloseTag = "</span></li>";
 	std::ostringstream	html;

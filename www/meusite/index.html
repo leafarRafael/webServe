@@ -1,54 +1,140 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página HTML Simples com Imagem</title>
+    <title>Página com Botões e Imagens</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
             background-color: #f4f4f4;
         }
         header {
-            background-color: #4CAF50;
+            background-color: #007BFF;
             color: white;
-            padding: 15px 0;
+            padding: 15px;
             text-align: center;
-        }
-        section {
-            margin: 20px;
-        }
-        img {
-            max-width: 100%;
-            height: auto;
         }
         footer {
             background-color: #333;
             color: white;
             text-align: center;
-            padding: 10px 0;
-            position: fixed;
+            padding: 10px;
+            margin-top: 20px;
             width: 100%;
-            bottom: 0;
+        }
+        .content {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        .section:nth-child(1) {
+            background-color: #e3f2fd;
+        }
+        .section:nth-child(2) {
+            background-color: #e8f5e9;
+        }
+        .section:nth-child(3) {
+            background-color: #fff3e0;
+        }
+        .section:nth-child(4) {
+            background-color: #fce4ec;
+        }
+        .section h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .link-image-container {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .link-image {
+            text-align: center;
+            flex: 1;
+        }
+        .link-image img {
+            width: 100%;
+            max-width: 300px;
+            height: auto;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+        .link-image button {
+            margin-top: 10px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007BFF;
+            color: white;
+            transition: background-color 0.3s ease;
+        }
+        .link-image button:hover {
+            background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-
     <header>
-        <h1>SITE 01 teste </h1>
+        <h1>WebServe</h1>
     </header>
-    <section>
-        <h2>Sobre Mim</h2>
-        <p>Esta é uma página simples criada como exemplo. Ela contém um cabeçalho, um rodapé e uma seção com conteúdo básico.</p>
-        <p>Abaixo está uma imagem de exemplo:</p>
-        <img src="gato/img.png" alt="Exemplo de Imagem">        
-    </section>
-    <footer>
-        <p>&copy; 2024 Meu Website</p>
-    </footer>
 
+    <div class="content">
+        <div class="section">
+            <h2>Seção 1</h2>
+            <div class="link-image-container">
+                <div class="link-image">
+                    <img src="/imagens/img.png" alt="">
+                    <button onclick="window.location.href='/form/formMultPart.html/cgi/multPartForm.py/update/'">MultPart</button>
+                </div>
+                <div class="link-image">
+                    <img src="/imagens/images.png" alt="Imagem 2">
+                    <button onclick="window.location.href='/form/fomrQueryString.html'">QueryString</button>
+                </div>
+                <div class="link-image">
+                    <img src="https://via.placeholder.com/300" alt="Imagem 3">
+                    <button onclick="window.location.href='/form/formChunked.html'">Chunked</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Seção 2</h2>
+            <div class="link-image-container">
+                <div class="link-image">
+                    <img src="https://via.placeholder.com/300" alt="Imagem 4">
+                    <button type="button" onclick="window.location.href='/cgi/getUploadPage.py/update/'">Galeria de Imagens</button>
+                </div>
+                <div class="link-image">
+                    <img src="https://via.placeholder.com/300" alt="Imagem 5">
+                    <button onclick="window.location.href='https://www.twitter.com'">Ir para o Twitter</button>
+                </div>
+                <div class="link-image">
+                    <img src="https://via.placeholder.com/300" alt="Imagem 6">
+                    <button onclick="window.location.href='https://www.linkedin.com'">Ir para o LinkedIn</button>
+                </div>
+            </div>
+        </div>
+
+    <footer>
+        <p>&copy; 2024 Minha Página</p>
+    </footer>
 </body>
 </html>

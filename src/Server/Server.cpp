@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:38:03 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/22 12:02:11 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/27 15:25:03 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ void	Server::response(int fd, Request *request) {
 	HTTP		http;
 
 	methods = defineMethods(request->getMethod());
+	methods->setDateRequest(*request);
 	methods->selectDirectives(*this, *request);
-
 	if (methods->errorRequest(*request)){
 		methods->errorRequest(*request);
 		http = methods->getHTTP();

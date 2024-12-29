@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 09:44:27 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/21 18:31:28 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/27 18:20:44 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,18 @@ DataLocation FindLocation::findLocation(Server &server, Request &request){
 	}
 	return validIfHaveLocation(path, server);
 }
+
+
+DataLocation FindLocation::findLocation(Server &server, std::string path){
+	DataLocation	location;
+
+	location = server.getDataLocationOBJ(path);
+	if (not location.empty()){
+		return location;
+	}
+	return validIfHaveLocation(path, server);
+}
+
 
 DataLocation	FindLocation::validIfHaveLocation(std::string path, Server &server){
 	std::string		prefix;
