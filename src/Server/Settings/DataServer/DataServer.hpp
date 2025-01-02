@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:33:31 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/21 18:24:35 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/01 15:21:44 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 #include "MaxBodySize.hpp"
 #include "Root.hpp"
 #include "Index.hpp"
+#include "AllowMethods.hpp"
+#include "Return.hpp"
 
 class DataServer{
 	private:
@@ -27,8 +29,11 @@ class DataServer{
 		MaxBodySize				_maxBodySize;
 		Listen					_listen;
 		ServerName				_serverName;
+		AllowMethods			_allowMethods;
+		Return					_directiveReturn;
 
 	public:
+		DataServer();
 		DataServer&operator=(DataServer const &origin);
 		//Listen Methods
 		void			setListen(std::string listen);
@@ -55,10 +60,16 @@ class DataServer{
 		void		setIndex(std::string index);
 		std::string	getIndex();
 
-		MaxBodySize	getMaxBodySizeOBJ();
-		Root		getRootOBJ();
-		Index		getIndexOBJ();
-		ErrorPage	getErrorPageOBJ();
-		ServerName	getServerNameOBJ();
+		void		setReturn(std::string index);
+		std::string	getReturnAddr();
+		int			getReturnStatus();
+
+		MaxBodySize		getMaxBodySizeOBJ();
+		Root			getRootOBJ();
+		Index			getIndexOBJ();
+		ErrorPage		getErrorPageOBJ();
+		ServerName		getServerNameOBJ();
+		AllowMethods	getAllowMethodsOBJ();
+		Return			getReturnOBJ();
 
 };

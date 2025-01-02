@@ -25,6 +25,8 @@ SRC_DIR				:= src/ src/utils \
 					src/Server/Methods/AMethods/GetFile \
 					src/Server/Methods/AMethods/ErrorDefault \
 					src/Server/Methods/GET \
+					src/Server/Methods/POST \
+					src/Server/Methods/DELETE \
 					src/ParseConf \
 					src/ParseConf/ParseValidation \
 					src/ParseConf/ParseTokens \
@@ -75,6 +77,8 @@ INCLUDE				:= -I src/Server \
 					-I src/Server/Methods/AMethods/GetFile \
 					-I src/Server/Methods/AMethods/ErrorDefault \
 					-I src/Server/Methods/GET \
+					-I src/Server/Methods/POST \
+					-I src/Server/Methods/DELETE \
 					-I src/Server/Socket \
 					-I src/Server/Settings \
 					-I src/Server/Settings/DataServer \

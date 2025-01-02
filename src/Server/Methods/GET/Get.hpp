@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:22:25 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/24 13:38:12 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/31 11:46:07 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,12 @@
 
 class Get: public AMethods{
 	private:
-		std::string	validHeaders(Request &request);
+		void		processFILE();
+		void		processCGI();	
 
 	public:
 		Get();
 		~Get();
-		HTTP	createHTTP(Server &server, Request &request);
+		HTTP	createHTTP();
 };
 

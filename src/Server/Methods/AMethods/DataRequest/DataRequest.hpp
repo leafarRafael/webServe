@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 12:45:47 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/29 13:11:07 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/30 18:03:32 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ class DataRequest{
 		std::string			_content_type;
 		std::string			_http_version;
 		std::string			_server_name;
-
 
 		void			splitURL(std::string url);
 		std::string		addQueryString(std::string url);

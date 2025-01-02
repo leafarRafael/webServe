@@ -41,30 +41,42 @@
             background-color: #0056b3;
         }
     </style>
+    <script>
+        function validateForm() {
+            var titulo = document.forms["uploadForm"]["titulo"].value;
+            var subtitulo = document.forms["uploadForm"]["subtitulo"].value;
+            var foto = document.forms["uploadForm"]["foto"].value;
+
+            if (titulo == "" || subtitulo == "" || foto == "") {
+                alert("Por favor, preencha todos os campos obrigatórios.");
+                return false;
+            }
+            return true;
+        }
+    </script>
 </head>
 <body>
-    <h2 style="text-align: center;">Formulário de Cadastro</h2>
-    <form enctype="multipart/form-data" method="post">
+    <h2 style="text-align: center;">Upload de Imagens</h2>
+    <form name="uploadForm" enctype="multipart/form-data" method="post" onsubmit="return validateForm()">
         <table>
             <tr>
-                <th>Nome</th>
-                <td><input type="text" name="nome" placeholder="Digite seu nome"></td>
+                <th>Título</th>
+                <td><input type="text" name="titulo" placeholder="Título da imagem"></td>
             </tr>
             <tr>
-                <th>Sobrenome</th>
-                <td><input type="text" name="sobrenome" placeholder="Digite seu sobrenome"></td>
+                <th>Subtítulo</th>
+                <td><input type="text" name="subtitulo" placeholder="Subtítulo da imagem"></td>
             </tr>
             <tr>
-                <th>Foto</th>
+                <th>Imagem</th>
                 <td><input type="file" name="foto" accept="image/*"></td>
             </tr>
         </table>
         <div class="button-container">
             <button type="submit">Enviar</button>
             <button type="button" onclick="window.location.href='/'">Voltar para Página Principal</button>
-            <button type="button" onclick="window.location.href='/cgi/getUploadPage.py/update/'">Galeria de Imagens</button>
+            <button type="button" onclick="window.location.href='/cgi/getUploadPage.py/update/'">Página de Update</button>
         </div>
     </form>
-
 </body>
 </html>

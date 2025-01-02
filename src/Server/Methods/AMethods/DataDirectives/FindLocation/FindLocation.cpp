@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 09:44:27 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/27 18:20:44 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/31 12:40:53 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ DataLocation	FindLocation::validIfHaveLocation(std::string path, Server &server)
 		prefix.erase(prefix.size() -1, 1);
 		prefix = getPrefix(prefix);
 	}
+	
 	return location;
 }
 

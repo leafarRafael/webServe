@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 20:35:00 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/21 18:00:18 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/01 15:58:05 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,10 @@ void		DataServer::setIndex(std::string index){
 	_index.setIndex(index);
 }
 
+void		DataServer::setReturn(std::string directiveReturn){
+	_directiveReturn.setReturn(directiveReturn);
+}
+
 DataServer &DataServer::operator=(DataServer const &origin){
 	if (this != &origin){
 		this->_listen = origin._listen;
@@ -80,8 +84,14 @@ DataServer &DataServer::operator=(DataServer const &origin){
 		this->_maxBodySize = origin._maxBodySize;
 		this->_root = origin._root;
 		this->_index = origin._index;
+		this->_allowMethods = origin._allowMethods;
+		this->_directiveReturn = origin._directiveReturn;
 	}
 	return *this;
+}
+
+DataServer::DataServer(){
+	_allowMethods.setAllowMethods("allow_methods POST GET");
 }
 
 MaxBodySize	DataServer::getMaxBodySizeOBJ(){
@@ -102,4 +112,11 @@ ErrorPage	DataServer::getErrorPageOBJ(){
 
 ServerName	DataServer::getServerNameOBJ(){
 	return this->_serverName;
+}
+
+AllowMethods DataServer::getAllowMethodsOBJ(){
+	return this->_allowMethods;
+}
+Return		DataServer::getReturnOBJ(){
+	return this->_directiveReturn;	
 }

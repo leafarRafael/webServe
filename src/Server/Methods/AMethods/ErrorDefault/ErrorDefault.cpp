@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 15:19:45 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/21 09:11:53 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/30 14:37:55 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ std::string ErrorDefault::getErrorDefault(int errorCode){
 void ErrorDefault::initError() {
     _error[400] = "Bad Request";
     _error[401] = "Unauthorized";
-    _error[402] = "Payment Required";
+    _error[402] = "timeOUT";
     _error[403] = "Forbidden";
     _error[404] = "Not Found";
     _error[405] = "Method Not Allowed";

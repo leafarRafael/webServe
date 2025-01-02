@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/14 18:51:33 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/15 14:34:45 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/01 13:27:41 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 #include <sstream>
 
 using namespace std;
-std::string	Headers::_keys[7] = {"Server", "Date", "Content-Type",\
+std::string	Headers::_keys[8] = {"Server", "Date", "Content-Type",\
 								"Content-Length", "Connection",\
-								"Cache-Control", "Expires"};
+								"Cache-Control", "Expires", "Location"};
 
 Headers::Headers(){
 	_headers["Server"] = "MyWebServe";
@@ -26,6 +26,7 @@ Headers::Headers(){
 	_headers["Connection"];
 	_headers["Cache-Control"];
 	_headers["Expires"];
+	_headers["Location"];
 }
 
 string	Headers::getBufferHeaders() const{
@@ -44,7 +45,7 @@ string	Headers::getBufferHeaders() const{
 }
 
 int		Headers::thereIsHeader(std::string KeyHeader){
-	for (int i = 0; i < 7; i++){
+	for (int i = 0; i < 8; i++){
 		if (KeyHeader == _keys[i])
 			return 1;
 	}

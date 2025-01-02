@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 13:47:45 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/27 17:01:45 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/01 15:55:00 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,18 @@ void	DataDirectives::addGlobalDirectives(DataServer dataServer){
 	_index = dataServer.getIndexOBJ();
 	_errorPage = dataServer.getErrorPageOBJ();
 	_errorPage = dataServer.getErrorPageOBJ();
+	_allowMethods = dataServer.getAllowMethodsOBJ();
+	_allowMethods = dataServer.getAllowMethodsOBJ();
+	_returnIndex = dataServer.getReturnOBJ();
 }
 
 void	DataDirectives::addLocationDirectives(DataLocation dataLocation){
 	_index = dataLocation.getIndexOBJ();
-	_allowMethods = dataLocation.getAllowedMethodOBJ();
-	_returnIndex = dataLocation.getReturnOBJ();
 	_autoIndex = dataLocation.getAutoIndexOBJ();
+	if (not dataLocation.getReturnOBJ().empty())
+		_returnIndex = dataLocation.getReturnOBJ();
+	if (not dataLocation.getAllowedMethodOBJ().empty())
+		_allowMethods = dataLocation.getAllowedMethodOBJ();
 	if (not dataLocation.getRootOBJ().empty())
 		_root = dataLocation.getRootOBJ();
 	if (not dataLocation.getErrorPageOBJ().empty())

@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:56:29 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/22 12:12:31 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/01 13:39:33 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,14 @@
 
 using namespace std;
 
-direct_Method	Settings::_ptrMethods[6] = {
+direct_Method	Settings::_ptrMethods[7] = {
 	{"listen", &DataServer::setListen},
 	{"error_page", &DataServer::setErrorPage},
 	{"server_name", &DataServer::setServerName},
 	{"client_max_body_size", &DataServer::setMaxBodySize},
 	{"root", &DataServer::setRoot},
 	{"index", &DataServer::setIndex},
+	{"return", &DataServer::setReturn}
 };
 
 void	Settings::setDataServer(std::string serverDirectives){
@@ -43,7 +44,7 @@ void	Settings::addServerDirective(list<string> &tokens){
 }
 
 void	Settings::setDirective(string directive){
-	for(int i = 0; i < 6; i++){
+	for(int i = 0; i < 7; i++){
 		if(directive.find(_ptrMethods[i].input) != string::npos){
 			(_directiveServer.*(_ptrMethods[i].function))(directive);
 			break ;

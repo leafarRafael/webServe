@@ -26,6 +26,8 @@ ContainerType split(const StringType& s, CharType delimiter) {
     std::string		token;
     std::istringstream iss(s);
 
+	if (s.empty())
+		return ContainerType();
     if (s.find(delimiter) == std::string::npos){
         listToken.push_back(s);
         return listToken;

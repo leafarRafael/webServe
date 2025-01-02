@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 14:06:16 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/13 12:35:03 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/31 14:18:24 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,20 @@ string	ARequestLine::getKeyRequestLine(int index) const {
 }
 
 string	ARequestLine::getMethod() const{
+	if (not _requestLine.count(METHOD))
+		return string();
 	return _requestLine.at(METHOD);
 }
 
 string	ARequestLine::getPath() const{
+	if (not _requestLine.count(PATH))
+		return string();
 	return _requestLine.at(PATH);
 }
 
 string	ARequestLine::getVersion() const{
+	if (not _requestLine.count(VERSION))
+		return string();
 	return _requestLine.at(VERSION);
 }
 

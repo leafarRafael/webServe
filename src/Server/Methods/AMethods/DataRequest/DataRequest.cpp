@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 12:50:25 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/29 19:11:00 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/31 12:35:46 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ void DataRequest::addPathCGI(std::string url){
 	}
 	_path_html = url.substr(0, pos + delimiter.size());
 	url.erase(0, pos + delimiter.length() +1);
-	_path_cgi = "/" + url;
+	if (url.find("cgi") != std::string::npos)
+		_path_cgi = "/" + url;
 }
 
 std::string	DataRequest::joinHeaders(std::list<std::string> header){
@@ -116,3 +117,4 @@ std::string	DataRequest::joinHeaders(std::list<std::string> header){
 	}
 	return value.str();
 }
+

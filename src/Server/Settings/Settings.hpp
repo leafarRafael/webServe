@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 20:08:05 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/22 12:11:33 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/01 13:38:50 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ typedef	struct direct_method
 class Settings{
 
 	private:
-		static	direct_Method	_ptrMethods[6];
+		static	direct_Method	_ptrMethods[];
 		DataServer				_directiveServer;
 		Location				_directiverLocation;
 

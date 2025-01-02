@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:08:39 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/21 18:21:20 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/01 15:26:00 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,12 @@ bool		DataLocation::isAllowedMethod(std::string method){
 	return _allowMethods.isAllowedMethod(method);
 }
 
-std::string DataLocation::getReturn(){
-	return _returnIndex.getReturn();
+std::string DataLocation::getReturnAddr(){
+	return _returnIndex.getReturnAddr();
+}
+
+int DataLocation::getReturnStatus(){
+	return _returnIndex.getReturnStatus();
 }
 
 DataLocation &DataLocation::operator=(DataLocation const &origin){

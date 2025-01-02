@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 11:11:32 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/22 09:23:17 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/01 15:26:29 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ class DataLocation{
 		std::size_t	getMaxBodySize();
 		bool		getAutoIndexBool();
 		bool		isAllowedMethod(std::string method);
-		std::string getReturn();
+		std::string getReturnAddr();
+		int			getReturnStatus();
 		bool		empty();
 
 		PathLocation 	getPathLocationOBJ();

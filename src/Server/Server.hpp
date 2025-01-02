@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:37:59 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/22 12:13:12 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/01 15:26:55 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 # include <map>
 # include "Socket.hpp"
 # include "Settings.hpp"
-# include "Mime.hpp"
 # include "HTTP.hpp"
 
 class AMethods;
@@ -27,13 +26,10 @@ class Server : public Socket, public Settings{
 	private:
 		std::map<int, Request *>	fdClient;
 		int							_socketFd;
-		Mime						_mimes;
 
 		AMethods	*defineMethods(std::string method);
-
 	public:
 		Server();
 		~Server();
-		std::string		getMime(std::string path);
 		void			response(int fd, Request *request);
 };

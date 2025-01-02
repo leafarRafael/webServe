@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:36:23 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/29 18:31:20 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/01 16:49:54 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,8 @@
 
 AMethods::~AMethods(){}
 
-std::string		AMethods::commonGatewayInterface(Server &server){
-	if (not _path_info.empty()){
-		DataLocation location = FindLocation::findLocation(server, _path_info);
-		if (not location.empty())
-			_pathTraslated = location.getRoot();
-		else
-			_pathTraslated = server.getDataServerOBJ().getRoot() + _path_info;			
-	}
+void	AMethods::setCGI(Server &server){
+	setPathTraslated(server);
 	if (not _path_cgi.empty()){
 		DataLocation location = FindLocation::findLocation(server, _path_cgi);
 		if (not location.empty())
@@ -47,8 +41,29 @@ std::string		AMethods::commonGatewayInterface(Server &server){
 	_cgi.setContentType(_content_type);
 	_cgi.setHTTPVersion(_http_version);
 	_cgi.setServerName(server.getDataServerOBJ().getServerName());
+}
+
+std::string		AMethods::commonGatewayInterface(){
 	return _cgi.commonGatewayInterface();
 }
+
+void	AMethods::setPathTraslated(Server &server){
+	if (not _path_info.empty()){
+		DataLocation location = FindLocation::findLocation(server, _path_info);
+		if (not location.empty())
+			_pathTraslated = location.getRoot();
+		else
+			_pathTraslated = server.getDataServerOBJ().getRoot() + _path_info;			
+	}
+	if (_pathTraslated.empty()){
+		DataLocation location = FindLocation::findLocation(server, _path_html);
+		if (not location.empty())
+			_pathTraslated = location.getRoot();
+		else
+			_pathTraslated = server.getDataServerOBJ().getRoot() + _path_info;			
+	}	
+}
+
 
 AMethods::AMethods() : DataRequest(){
 	_statusCode = 0;
@@ -83,6 +98,24 @@ bool	AMethods::errorRequest(Request &request){
 		_bufferBody = ErrorDefault::getErrorDefault(error);
 	return true;
 }
+
+bool	AMethods::isReturnDirective(){
+	if(_returnIndex.empty())
+		return false;
+	if (not _returnIndex.getReturnAddr().empty()){
+		_http.setHeaders("Location", _returnIndex.getReturnAddr());
+		_statusMensagen = "Moved Permanently";
+		_statusCode = _returnIndex.getReturnStatus();
+		
+	}
+	else{
+		processError(_returnIndex.getReturnStatus());
+		_statusCode = 404;
+		_statusMensagen = "not ok";	
+	}
+	return true;
+}
+
 
 std::string	AMethods::getBufferFile(std::string fileName){
 	std::string buffer;
@@ -131,4 +164,22 @@ std::string AMethods::getFile(std::string url){
 		index++;
 	}
 	return file;
+}
+
+void	AMethods::setAtributes(Server &server, Request &request){
+	setDateRequest(request);
+	selectDirectives(server, request);
+	setCGI(server);
+}
+
+std::string		AMethods::getMime(std::string path){
+	return _mimes.getMime(path);
+}
+
+void	AMethods::processError(int statusError){
+	std::string buffer = getBufferFile(_root.getRoot() + _errorPage.getErrorPage(statusError));
+	if(buffer.empty())
+		buffer = ErrorDefault::getErrorDefault(statusError);
+	_contentType = getMime(_path_cgi);
+	_bufferBody = buffer;
 }

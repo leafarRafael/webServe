@@ -6,25 +6,26 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 14:17:03 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/29 19:10:39 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/30 14:13:20 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-#include "Server.hpp"
-#include "Request.hpp"
-#include <map>
-
-
+# include "Server.hpp"
+# include "Request.hpp"
+# include <map>
 
 class CGI{
 	private:
+		std::size_t 		_startTime;
+		
 		char				_bufferToRead[4012];
 		pid_t				_pid;
 		int					_pipe[2];
 		int 				_bytesRead;
 		int 				_statusScript;
 		std::string			_bufferResponsePipe;
+
 		std::string 		_contentLength;
 		std::string 		_contentType;
 		std::string 		_requestMethod;
@@ -36,11 +37,19 @@ class CGI{
 		std::string			_version;
 		std::string			_server_name;
 
-		void	setEnv();
-		void 	unSetEnv();
-		void	writeContentBodyInPipe();
+		void				setEnv();
+		void				unSetEnv();
+		void				writeContentBodyInPipe();
+		void				initPipeAndFork();
+		void				childProcess();
+		void				parentProcess();
+		
+		bool				timeOut();
+		int					elapsedTime();
+		std::size_t			getTime();
+
 	public:
-		CGI(){};
+		CGI();
 		~CGI(){};
 		std::string	commonGatewayInterface();
 

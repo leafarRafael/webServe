@@ -49,31 +49,76 @@ html_open = '''<!DOCTYPE html>
             color: #555;
         }
 
-        @media (max-width: 1200px) {
-            .gallery {
-                grid-template-columns: repeat(3, 1fr);
-            }
+        .delete-button {
+            margin-top: 10px;
+            padding: 8px 16px;
+            font-size: 14px;
+            color: white;
+            background-color: #ff4d4d;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
         }
 
-        @media (max-width: 800px) {
-            .gallery {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 500px) {
-            .gallery {
-                grid-template-columns: 1fr;
-            }
+        .delete-button:hover {
+            background-color: #cc0000;
         }
     </style>
-	</head>
-	<body>
-		<h1 style="text-align: center; margin-top: 20px;">Galeria de Imagens</h1>
-		<div class="gallery">'''
+</head>
+<body>
+    <h1 style="text-align: center; margin-top: 20px;">Galeria de Imagens</h1>
+    <div class="gallery">'''
 
 html_close = '''
 	</div>
+    <script>
+    function deleteFiles(imagePath, htmlPath, button) {
+        let imageDeleted = false;
+        let htmlDeleted = false;
+        function checkDeletionStatus() {
+            if (imageDeleted || htmlDeleted) {
+                alert('Exclusão realizada com sucesso para os itens disponíveis!');
+                button.closest('.gallery-item').remove();
+            } else {
+                alert('Nenhum dos itens pôde ser excluído.');
+            }
+        }
+        fetch(imagePath, {
+            method: 'DELETE'
+        })
+        .then(response => {
+            if (response.ok) {
+                imageDeleted = true;
+            } else {
+                console.warn('Erro ao excluir a imagem. Código:', response.status);
+            }
+        })
+        .catch(error => {
+            console.error('Erro ao excluir a imagem:', error);
+        })
+        .finally(() => {
+            // Tenta excluir o arquivo HTML
+            fetch(htmlPath, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.ok) {
+                    htmlDeleted = true;
+                } else {
+                    console.warn('Erro ao excluir o arquivo HTML. Código:', response.status);
+                }
+            })
+            .catch(error => {
+                console.error('Erro ao excluir o arquivo HTML:', error);
+            })
+            .finally(() => {
+                // Verifica o status final de exclusão
+                checkDeletionStatus();
+            });
+        });
+    }
+</script>
 </body>
 </html>'''
 
@@ -90,8 +135,10 @@ if __name__ == "__main__":
     print(html_open)
     for file_name in os.listdir(path_translated):
         complet_path = os.path.join(path_translated, file_name)
-        if os.path.isfile(complet_path) and file_name.endswith(".data"):
+        if os.path.isfile(complet_path) and file_name.endswith(".html"):
             with open(complet_path, 'r') as arquivo:
                 content = arquivo.read()
+                arquivo.close()
                 print(content)
     print(html_close)
+

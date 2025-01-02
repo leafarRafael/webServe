@@ -1,36 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Get.cpp                                            :+:      :+:    :+:   */
+/*   Post.cpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:15:40 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/31 12:41:09 by rbutzke          ###   ########.fr       */
+/*   Updated: 2024/12/31 12:41:15 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "Get.hpp"
+#include "Post.hpp"
 #include "ErrorDefault.hpp"
 
-Get::Get(): AMethods(){}
+Post::Post(): AMethods(){}
 
-Get::~Get(){}
+Post::~Post(){}
 
-HTTP	Get::createHTTP(){
+HTTP	Post::createHTTP(){
+	if (not _path_cgi.empty()){
+		_bufferBody = commonGatewayInterface();
+		if (_bufferBody == "timeOut")
+			processError(402);
+		if (_bufferBody.find("204 No Content") != std::string::npos){
+			_bufferBody.empty();
+			_statusCode = 204;
+			_statusMensagen = "No Content";
+			return getHTTP();
+		}
+	}
 	if (not _path_html.empty()){
 		processFILE();
-		return getHTTP();
-	}
-	if (_path_html.empty() && not _path_cgi.empty()){
-		Get::processCGI();
-		return getHTTP();
+		return getHTTP();	
 	}
 	processError(404);
 	return getHTTP();
 }
 
-void	Get::processFILE(){
+void	Post::processFILE(){
 	std::string		path;
 	std::string		buffer;
 	std::string		file;
@@ -51,19 +58,10 @@ void	Get::processFILE(){
 	_bufferBody = buffer;
 }
 
-void	Get::processCGI(){
+void	Post::processCGI(){
 	_bufferBody = commonGatewayInterface();
 	if (not _bufferBody.empty()){
 		_statusCode = 200;
 		_statusMensagen = "ok";
 	}
 }
-
-
-
-
-/* 	if (not (buffer = validHeaders(request)).empty()){
-		_contentType = server.getMime(request.getPath());
-		_bufferBody = buffer;
-		return getHTTP();
-	} */

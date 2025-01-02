@@ -1,28 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Return.hpp                                         :+:      :+:    :+:   */
+/*   Post.hpp                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/17 13:40:48 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/01 15:24:56 by rbutzke          ###   ########.fr       */
+/*   Created: 2024/12/20 10:22:25 by rbutzke           #+#    #+#             */
+/*   Updated: 2024/12/30 17:07:12 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
-#include <string>
-#include "DirectivesBase.hpp"
 
-class Return : public DirectivesBase{
+#include "AMethods.hpp"
+
+class Post: public AMethods{
 	private:
-		int			_returnStatus;
-		std::string	_addrReturn;
+		void		processFILE();
+		void		processCGI();
 
 	public:
-		Return();
-		Return&operator=(Return const &origin);
-		void		setReturn(std::string addReturn);
-		std::string	getReturnAddr();
-		int			getReturnStatus();
+		Post();
+		~Post();
+		HTTP	createHTTP();
 };
+
