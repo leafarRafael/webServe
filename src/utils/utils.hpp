@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/03 16:03:53 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/16 19:31:59 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/02 10:35:05 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,3 +41,4 @@ std::string toUpper(String &str){
 
 
 #include "utils.tpp"
+
