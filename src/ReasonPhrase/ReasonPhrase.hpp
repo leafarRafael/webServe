@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ErrorDefault.hpp                                   :+:      :+:    :+:   */
+/*   ReasonPhrase.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/12/20 15:08:58 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/20 19:56:02 by rbutzke          ###   ########.fr       */
+/*   Created: 2025/01/03 12:32:29 by rbutzke           #+#    #+#             */
+/*   Updated: 2025/01/03 12:46:14 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#pragma once
-
+#pragma once 
 #include <string>
 #include <map>
 
-
-class ErrorDefault{
+class ReasonPhrase{
 	private:
-		static std::map<int, std::string> _error;
-		static void initError();
-		ErrorDefault(){};
-		~ErrorDefault(){};
+		static std::map<int, std::string>	_reasonPhrase;
+		ReasonPhrase();
+		~ReasonPhrase();
+		static void	initReasonPhrase();
 	public:
-		static std::string	getErrorDefault(int errorCode);
-		
+		static std::string	getPhrase(int status);
 };

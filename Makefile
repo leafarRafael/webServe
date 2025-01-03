@@ -15,15 +15,17 @@ CMD_CLEAN	:= rm -Rf
 #-----------------------------------------------------------------------------------------
 # DIRECTORY
 SRC_DIR				:= src/ src/utils \
-					src/MIMES \
+					src/Mime \
 					src/Server \
+					src/Log \
+					src/ErrorDefault \
+					src/ReasonPhrase \
 					src/Server/Methods/AMethods \
 					src/Server/Methods/AMethods/DataRequest \
 					src/Server/Methods/AMethods/DataDirectives \
 					src/Server/Methods/AMethods/DataDirectives/FindLocation \
 					src/Server/Methods/AMethods/CGI \
 					src/Server/Methods/AMethods/GetFile \
-					src/Server/Methods/AMethods/ErrorDefault \
 					src/Server/Methods/GET \
 					src/Server/Methods/POST \
 					src/Server/Methods/DELETE \
@@ -31,21 +33,21 @@ SRC_DIR				:= src/ src/utils \
 					src/ParseConf/ParseValidation \
 					src/ParseConf/ParseTokens \
 					src/Server/Settings \
+					src/Directives \
+					src/Directives/AllowMethods \
+					src/Directives/AutoIndex \
+					src/Directives/ErrorPage \
+					src/Directives/ErrorPage/ErrorCodeURL \
+					src/Directives/Index \
+					src/Directives/Listen \
+					src/Directives/MaxBodySize \
+					src/Directives/PathLocation \
+					src/Directives/Return \
+					src/Directives/Root \
+					src/Directives/ServerName \
 					src/Server/Settings/DataServer \
 					src/Server/Settings/Location \
 					src/Server/Settings/Location/DataLocation \
-					src/Server/Settings/Directives/ \
-					src/Server/Settings/Directives/AllowMethods \
-					src/Server/Settings/Directives/AutoIndex \
-					src/Server/Settings/Directives/ErrorPage \
-					src/Server/Settings/Directives/ErrorPage/ErrorCodeURL \
-					src/Server/Settings/Directives/Index \
-					src/Server/Settings/Directives/Listen \
-					src/Server/Settings/Directives/MaxBodySize \
-					src/Server/Settings/Directives/PathLocation \
-					src/Server/Settings/Directives/Return \
-					src/Server/Settings/Directives/Root \
-					src/Server/Settings/Directives/ServerName \
 					src/Server/Socket \
 					src/Server/HTTP \
 					src/Server/HTTP/StatusLine \
@@ -68,37 +70,39 @@ SRC_DIR				:= src/ src/utils \
 #-----------------------------------------------------------------------------------------
 # Header file
 INCLUDE				:= -I src/Server \
-					-I src/MIMES \
+					-I src/Mime \
+					-I src/ErrorDefault \
+					-I src/ReasonPhrase \
 					-I src/Server/Methods/AMethods \
 					-I src/Server/Methods/AMethods/DataRequest \
 					-I src/Server/Methods/AMethods/DataDirectives \
 					-I src/Server/Methods/AMethods/DataDirectives/FindLocation \
 					-I src/Server/Methods/AMethods/CGI \
 					-I src/Server/Methods/AMethods/GetFile \
-					-I src/Server/Methods/AMethods/ErrorDefault \
 					-I src/Server/Methods/GET \
 					-I src/Server/Methods/POST \
 					-I src/Server/Methods/DELETE \
 					-I src/Server/Socket \
 					-I src/Server/Settings \
 					-I src/Server/Settings/DataServer \
+					-I src/Log \
 					-I src/ParseConf \
+					-I src/Directives \
+					-I src/Directives/AllowMethods \
+					-I src/Directives/AutoIndex \
+					-I src/Directives/ErrorPage \
+					-I src/Directives/ErrorPage/ErrorCodeURL \
+					-I src/Directives/Index \
+					-I src/Directives/Listen \
+					-I src/Directives/MaxBodySize \
+					-I src/Directives/PathLocation \
+					-I src/Directives/Return \
+					-I src/Directives/Root \
+					-I src/Directives/ServerName \
 					-I src/ParseConf/ParseValidation \
 					-I src/ParseConf/ParseTokens \
 					-I src/Server/Settings/Location \
 					-I src/Server/Settings/Location/DataLocation \
-					-I src/Server/Settings/Directives/ \
-					-I src/Server/Settings/Directives/AllowMethods \
-					-I src/Server/Settings/Directives/AutoIndex \
-					-I src/Server/Settings/Directives/ErrorPage \
-					-I src/Server/Settings/Directives/ErrorPage/ErrorCodeURL \
-					-I src/Server/Settings/Directives/Index \
-					-I src/Server/Settings/Directives/Listen \
-					-I src/Server/Settings/Directives/MaxBodySize \
-					-I src/Server/Settings/Directives/PathLocation \
-					-I src/Server/Settings/Directives/Return \
-					-I src/Server/Settings/Directives/Root \
-					-I src/Server/Settings/Directives/ServerName \
 					-I src/utils\
 					-I src/Server/HTTP \
 					-I src/Server/HTTP/StatusLine \

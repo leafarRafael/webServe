@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 14:17:03 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/30 14:13:20 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/03 16:35:46 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,11 @@ class CGI{
 		void				initPipeAndFork();
 		void				childProcess();
 		void				parentProcess();
-		
 		bool				timeOut();
 		int					elapsedTime();
 		std::size_t			getTime();
+		void				addPathInterpreterExecutable(char** args);
+		bool				waitValidExitStatus();
 
 	public:
 		CGI();

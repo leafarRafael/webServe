@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 12:45:47 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/30 18:03:32 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/03 14:02:39 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ class DataRequest{
 		std::string			_path_info;
 		std::string			_query_string;
 		bool				_isCGI;
+		int					_errorRequest;
 
 		std::string			_method;
 		std::string			_body;

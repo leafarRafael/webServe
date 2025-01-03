@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:35:36 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/22 12:11:33 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/03 10:51:35 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <cerrno> 
 #include <sstream>
 #include "utils.hpp"
+#include "Log.hpp"
 
 std::list<Server>	ParseConf::parseFileConf(std::string file){
 	try{
@@ -75,8 +76,9 @@ void	ParseConf::validDirectives(){
 }
 
 void	ParseConf::initServers(){
-	std::list<blockServer>::iterator it;
-	std::list<std::string>::iterator locait;
+	std::list<blockServer>::iterator	it;
+	std::list<std::string>::iterator	locait;
+	std::map<std::string, std::string>	ctlrIP, ctlrPort;
 
 	for (it = _serverBlock.begin(); it != _serverBlock.end(); it++){
 		Server	server;
@@ -84,8 +86,15 @@ void	ParseConf::initServers(){
 		for(locait = it->_locationsScope.begin(); locait != it->_locationsScope.end(); locait++){
 			server.setLocation(*locait);
 		}
-		server.initTCP(server.getPort().c_str(), 10, server.getIP().c_str());
-		_server.push_back(server);
+		if (not ctlrIP.count(server.getIP()) && not ctlrPort.count(server.getPort())){
+			ctlrIP[server.getIP()];
+			ctlrPort[server.getPort()];
+			server.initTCP(server.getPort().c_str(), 10, server.getIP().c_str());
+			Log::message("Socket created. ", "IP:",
+				server.getIP().c_str(), "; Port: ",
+				server.getPort().c_str(), 0);
+			_server.push_back(server);
+		}
 	}
 }
 

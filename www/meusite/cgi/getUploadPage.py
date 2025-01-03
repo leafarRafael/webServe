@@ -141,4 +141,4 @@ if __name__ == "__main__":
                 arquivo.close()
                 print(content)
     print(html_close)
-
+    exit(0);

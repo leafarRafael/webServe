@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:36:23 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/01 16:49:54 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/03 18:27:09 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include <iostream>
 #include "utils.hpp"
 #include "ErrorDefault.hpp"
+#include "ReasonPhrase.hpp"
 #include "unistd.h"
 #include <fcntl.h>
 #include "GetFile.hpp"
@@ -64,10 +65,9 @@ void	AMethods::setPathTraslated(Server &server){
 	}	
 }
 
-
 AMethods::AMethods() : DataRequest(){
 	_statusCode = 0;
-	_statusMensagen = "";
+	_reasonPhrase = "";
 	_contentType = "";
 	_bufferBody = "";
 	_pathTraslated = "";
@@ -78,70 +78,55 @@ AMethods::AMethods() : DataRequest(){
 }
 
 HTTP AMethods::getHTTP(){	
-	_http.setStatusResponse(_statusCode, _statusMensagen);
+	_http.setStatusResponse(_statusCode, _reasonPhrase);
 	_http.setHeaders("Content-Type", _contentType);
  	_http.setBody(_bufferBody);	
 	return _http;
 }	
 
-bool	AMethods::errorRequest(Request &request){
-	int	error = 0;
-
-	error = request.getParserError();
-	if(error == 0)
-		return false;
-	_statusCode = error;
-	_statusMensagen = "not ok";
-	_contentType = "text/html";
-	_bufferBody = _errorPage.getErrorPage(error);
-	if (_bufferBody.empty())
-		_bufferBody = ErrorDefault::getErrorDefault(error);
-	return true;
-}
-
-bool	AMethods::isReturnDirective(){
-	if(_returnIndex.empty())
-		return false;
+void	AMethods::processReturnDirective(){
 	if (not _returnIndex.getReturnAddr().empty()){
 		_http.setHeaders("Location", _returnIndex.getReturnAddr());
-		_statusMensagen = "Moved Permanently";
 		_statusCode = _returnIndex.getReturnStatus();
-		
+		_reasonPhrase = ReasonPhrase::getPhrase(_statusCode);
 	}
-	else{
+	else
 		processError(_returnIndex.getReturnStatus());
-		_statusCode = 404;
-		_statusMensagen = "not ok";	
-	}
-	return true;
 }
 
-
-std::string	AMethods::getBufferFile(std::string fileName){
-	std::string buffer;
-	DIR *directory;
+void	AMethods::addResponseBody(std::string fileName){
+	DIR	*directory;
 
 	directory = opendir(fileName.c_str());
 	if (directory != NULL){
 		if (not _index.empty())
-			buffer = GetFile::getBufferFile(fileName + _index.getIndex());
+			_bufferBody = GetFile::getBufferFile(fileName + _index.getIndex());
 		else if (_index.empty() && (not _autoIndex.empty() && _autoIndex.getAutoIndexBool()))
-			buffer = GetFile::getBufferDirectory(directory, fileName);
+			_bufferBody = GetFile::getBufferDirectory(directory, fileName);
 		else
-			buffer.clear();
+			_bufferBody.clear();
 		closedir(directory);
 	}
 	else
-		buffer = GetFile::getBufferFile(fileName);
-	if(buffer.empty())
-	{
-		_statusCode = 404;
-		_statusMensagen = "not ok";	
-		return std::string();
-	}
-	_statusCode = 200;
-	_statusMensagen = "ok";
-	return buffer;
+		_bufferBody = GetFile::getBufferFile(fileName);
+	if(_bufferBody.empty())
+		processError(404);
+	else{
+		_statusCode = 200;
+		_reasonPhrase = ReasonPhrase::getPhrase(200);
+		_contentType = getMime(_path_cgi);
+	}	
+}
+
+void	AMethods::processError(int statusError){
+	_bufferBody.clear();
+	if (not _errorPage.getErrorPage(statusError).empty())
+		_bufferBody = GetFile::getBufferFile(_root.getRoot() + _errorPage.getErrorPage(statusError));
+	if(_bufferBody.empty())
+		_bufferBody = ErrorDefault::getHTML(statusError);
+	_statusCode = statusError;
+	_reasonPhrase = ReasonPhrase::getPhrase(statusError);	
+	_contentType = getMime(_path_cgi);
 }
 
 std::string AMethods::getFile(std::string url){
@@ -176,10 +161,29 @@ std::string		AMethods::getMime(std::string path){
 	return _mimes.getMime(path);
 }
 
-void	AMethods::processError(int statusError){
-	std::string buffer = getBufferFile(_root.getRoot() + _errorPage.getErrorPage(statusError));
-	if(buffer.empty())
-		buffer = ErrorDefault::getErrorDefault(statusError);
-	_contentType = getMime(_path_cgi);
-	_bufferBody = buffer;
+void	AMethods::processFile(){
+	std::string		path;
+	std::string		buffer;
+	std::string		file;
+
+	file = getFile(_path_html);
+	path = _root.getRoot();
+	path += file;
+	if (file.size() == 1 && file[0] == '/'){
+		path += _index.getIndex();
+	}
+	addResponseBody(path);
+}
+
+int AMethods::getErrorValue(){
+	std::string statusError = "STATUS CODE: ";
+	std::string	value;
+	std::size_t	posBegin = statusError.length();
+	std::size_t	posEnd = _bufferBody.length() - posBegin;
+
+	if (_bufferBody.empty())
+		return -1;
+	value = _bufferBody.substr(posBegin, posEnd);
+	trim(value);
+	return toInt(value);
 }

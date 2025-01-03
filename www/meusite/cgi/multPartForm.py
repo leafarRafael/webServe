@@ -130,5 +130,4 @@ if __name__ == "__main__":
 	with open(path_translated+titulo+subtitulo + ".html", "w") as arquivo:
 		arquivo.write(generate_html(titulo, subtitulo, path_info+filename, htmlFile))
 		arquivo.close()
-	print("204 No Content")
 	exit(0);

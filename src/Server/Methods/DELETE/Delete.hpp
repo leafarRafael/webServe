@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:22:25 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/31 13:06:30 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/03 13:39:53 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 
 class Delete: public AMethods{
 	private:
-		void	processFILE();
 		int		pathIsFile(const std::string& path);
+
 	public:
 		Delete();
 		~Delete();

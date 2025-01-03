@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:38:03 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/01 15:51:06 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/03 15:26:08 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 #include "Get.hpp"
 #include "Post.hpp"
 #include "Delete.hpp"
+#include "Log.hpp"
 
 using namespace std;
 
@@ -30,17 +31,6 @@ void	Server::response(int fd, Request *request) {
 
 	methods = defineMethods(request->getMethod());
 	methods->setAtributes(*this,  *request);
-	if (methods->isReturnDirective()){
-		http = methods->getHTTP();
-		send(fd, http.getHTTP().c_str(), http.getHTTP().length(), 0);
-		return ;
-	}
-	if (methods->errorRequest(*request)){
-		methods->errorRequest(*request);
-		http = methods->getHTTP();
-		send(fd, http.getHTTP().c_str(), http.getHTTP().length(), 0);
-		return ;
-	}
 	http  = methods->createHTTP();
 	send(fd, http.getHTTP().c_str(), http.getHTTP().length(), 0);
 	delete methods;

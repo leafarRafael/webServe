@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 14:19:22 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/30 17:19:31 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/03 18:45:19 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <unistd.h>
 # include <ctime>
 # include <sys/time.h>
+# include "Log.hpp"
+# include <cstring>
+# include <cerrno>
 
 std::string	CGI::commonGatewayInterface(){		
 	initPipeAndFork();
@@ -32,13 +35,11 @@ std::string	CGI::commonGatewayInterface(){
 
 void	CGI::initPipeAndFork(){
 	if (pipe(_pipe) == -1){
-		std::cerr << "Fatal Error: pipe" << "\n";
-		exit(666); 
+		Log::message("Pipe error ", strerror(errno), 0);;
 	}
 	_startTime = getTime();
 	if ((_pid = fork()) == -1){
-		std::cerr << "Fatal Error: Fork" << "\n";
-		exit(666); 
+		Log::message("Fork error ", strerror(errno), 0);
 	}	
 }
 
@@ -47,30 +48,66 @@ void	CGI::childProcess(){
 	writeContentBodyInPipe();
 	dup2(_pipe[1], STDOUT_FILENO);
 	dup2(_pipe[0], STDIN_FILENO);
-	close (_pipe[0]);
-	close (_pipe[1]);
+	close(_pipe[0]);
+	close(_pipe[1]);
 	extern char **__environ;
-	char* const args[] = {(char*)"/usr/bin/python3",(char*)_pathCGI.c_str(), NULL};
-	if (execve(args[0], args, __environ) == 1)
-		exit(1);
+	char* args[3];
+	addPathInterpreterExecutable(args);
+	execve(args[0], args, __environ);
+	Log::message("Execve error ", strerror(errno), 0);
+	exit(EXIT_FAILURE);
+}
+
+void CGI::addPathInterpreterExecutable(char** args){
+	if (_pathCGI.empty())
+		exit(EXIT_FAILURE);
+	if (_pathCGI.find(".py") != std::string::npos){
+		args[0] = (char*)"/usr/bin/python3";
+		args[1] = (char*)_pathCGI.c_str();
+		args[2] = NULL;
+	}
+	else if (_pathCGI.find(".php") != std::string::npos){
+		args[0] = (char*)"/usr/bin/php";
+		args[1] = (char*)_pathCGI.c_str();
+		args[2] = NULL;
+	}
+	else{
+		args[0] = (char*)"/usr/bin/bash";
+		args[1] = (char*)_pathCGI.c_str();
+		args[2] = NULL;
+	}
 }
 
 void 	CGI::parentProcess(){
 	unSetEnv();
 	close(_pipe[1]);
-	if (timeOut())
+	if (waitValidExitStatus())
 		return ;
 	_bytesRead = 1;
 	while (_bytesRead){
 		_bytesRead = read(_pipe[0], _bufferToRead, 4010);
 		if (_bytesRead == -1){
-			_bufferResponsePipe = "READ_ERROR";
+			_bufferResponsePipe = "STATUS CODE: 504";
+			Log::message("read error; broken pipe ", 0);
 			break ;
 		}
 		_bufferToRead[_bytesRead] = '\0';
 		_bufferResponsePipe.append(_bufferToRead, _bytesRead);
 	}
+	if (_bufferResponsePipe.empty())
+		_bufferResponsePipe = "STATUS CODE: 204";
 	close(_pipe[0]);
+}
+
+bool	CGI::waitValidExitStatus(){
+	if (timeOut())
+		return true;
+	if (WIFEXITED(_statusScript) && WEXITSTATUS(_statusScript)){
+		_bufferResponsePipe = "STATUS CODE: 500";
+		close(_pipe[0]);
+		return true;
+	}
+	return false;
 }
 
 bool	CGI::timeOut(){
@@ -79,16 +116,12 @@ bool	CGI::timeOut(){
 	do{
 		result = waitpid(_pid, &_statusScript, WNOHANG);
 		if (elapsedTime() > 100000){
-			_bufferResponsePipe = "timeOut";
+			_bufferResponsePipe = "STATUS CODE: 504";
 			close(_pipe[0]);
 			kill(_pid, SIGKILL);
 			return true;
 		}
 	} while(result == 0);
-	if (result == -1){
-		close(_pipe[0]);
-		return true;
-	}
 	return false;
 }
 

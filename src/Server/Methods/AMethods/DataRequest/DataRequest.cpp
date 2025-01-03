@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 12:50:25 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/31 12:35:46 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/03 14:02:56 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,13 @@ DataRequest::DataRequest(){
 	_content_type = "";
 	_http_version = "";
 	_isCGI = false;
+	_errorRequest = 0;
 }
 
 DataRequest::~DataRequest(){}
 
 void	DataRequest::setDateRequest(Request &request){
+	_errorRequest = request.getParserError();
 	_method = request.getMethod();
 	_http_version = request.getVersion();
 	_content_length = joinHeaders(request.getHeader("Content-Length"));

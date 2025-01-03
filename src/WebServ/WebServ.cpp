@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 11:58:02 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/26 13:56:12 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/03 12:17:14 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 #include "DataBody.hpp"
 #include "Server.hpp"
 #include "Client.hpp"
+#include "Log.hpp"
 
 using namespace std;
 
@@ -67,6 +68,9 @@ bool	WebServ::isNewClient(int fd){
 			fdClient = accept(it->getSocketFd(), 0, 0);
 			if (fdClient == -1)
 				throw (runtime_error("error: epoll_ctl()"));
+			Log::message("Connection accepted: ",
+				it->getDataServerOBJ().getServerName().c_str(),
+				" Cliente fd [", intToString(fdClient).c_str(), "]", 0);
 			Client *client = new Client(*it, fdClient);		
 			client->setMaxSize(it->getMaxBodySize());
 			_client.push_back(client);
