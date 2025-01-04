@@ -16,15 +16,19 @@
 #include "WebServ.hpp"
 #include "Server.hpp"
 #include "ParseConf.hpp"
-
 #include "Settings.hpp"
+#include <csignal>
+#include "SignalHandler.hpp"
 
 using namespace std;
+
 
 int main(int ac, char **av){
 	std::list<Server>	servers;
 	ParseConf			parse;
-	
+    SignalHandler::ignoreSigPipe();
+   	signal(SIGINT, SignalHandler::signalHandler);
+    signal(SIGTERM, SignalHandler::signalHandler);
 	try
 	{
 		if (ac == 2)

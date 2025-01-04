@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 14:19:22 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/03 18:45:19 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/04 18:08:59 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@
 # include "Log.hpp"
 # include <cstring>
 # include <cerrno>
+#include <fstream>
+#include "SignalHandler.hpp"
 
-std::string	CGI::commonGatewayInterface(){		
-	initPipeAndFork();
+std::string	CGI::commonGatewayInterface(){
+	if(initPipeAndFork())
+		return _bufferResponsePipe;
 	if (_pid == 0)
 		childProcess();
 	else
@@ -33,19 +36,25 @@ std::string	CGI::commonGatewayInterface(){
 	return _bufferResponsePipe;
 }
 
-void	CGI::initPipeAndFork(){
+bool	CGI::initPipeAndFork(){
 	if (pipe(_pipe) == -1){
-		Log::message("Pipe error ", strerror(errno), 0);;
+		Log::message("Pipe error ", strerror(errno), 0);
+		_bufferResponsePipe = "STATUS CODE: 500";
+		return true;
 	}
 	_startTime = getTime();
 	if ((_pid = fork()) == -1){
 		Log::message("Fork error ", strerror(errno), 0);
-	}	
+		_bufferResponsePipe = "STATUS CODE: 500";
+		close(_pipe[0]);
+		close(_pipe[1]);
+		return true;
+	}
+	return false;
 }
 
 void	CGI::childProcess(){
 	setEnv();
-	writeContentBodyInPipe();
 	dup2(_pipe[1], STDOUT_FILENO);
 	dup2(_pipe[0], STDIN_FILENO);
 	close(_pipe[0]);
@@ -54,13 +63,11 @@ void	CGI::childProcess(){
 	char* args[3];
 	addPathInterpreterExecutable(args);
 	execve(args[0], args, __environ);
+	SignalHandler::setBreakLooping(true);
 	Log::message("Execve error ", strerror(errno), 0);
-	exit(EXIT_FAILURE);
 }
 
 void CGI::addPathInterpreterExecutable(char** args){
-	if (_pathCGI.empty())
-		exit(EXIT_FAILURE);
 	if (_pathCGI.find(".py") != std::string::npos){
 		args[0] = (char*)"/usr/bin/python3";
 		args[1] = (char*)_pathCGI.c_str();
@@ -79,6 +86,8 @@ void CGI::addPathInterpreterExecutable(char** args){
 }
 
 void 	CGI::parentProcess(){
+	if (writeContentBodyInPipe())
+		return ;
 	unSetEnv();
 	close(_pipe[1]);
 	if (waitValidExitStatus())
@@ -99,6 +108,34 @@ void 	CGI::parentProcess(){
 	close(_pipe[0]);
 }
 
+bool	CGI::writeContentBodyInPipe(){
+	if (_maxBodySize < _body.length()){
+		_bufferResponsePipe = "STATUS CODE: 500";
+		close(_pipe[0]);
+		close(_pipe[1]);
+		kill(_pid, SIGKILL);
+		unSetEnv();
+		return true;
+	}
+	if (_body.empty())
+		return false;
+	const char	*body = _body.c_str();
+	ssize_t		bodySize = static_cast<ssize_t>(_body.size());
+	ssize_t		buffer = 4098;
+	ssize_t		positionInBuffer = 0;
+	ssize_t		bufferToWritten = 0;
+	while(bodySize > 0){
+		if (buffer <= bodySize)
+			bufferToWritten = buffer;
+		else
+			bufferToWritten = bodySize;
+		write(_pipe[1], &body[positionInBuffer], bufferToWritten);
+		positionInBuffer += bufferToWritten;
+		bodySize -= bufferToWritten;	
+	}
+	return false;
+}
+
 bool	CGI::waitValidExitStatus(){
 	if (timeOut())
 		return true;
@@ -115,7 +152,7 @@ bool	CGI::timeOut(){
 
 	do{
 		result = waitpid(_pid, &_statusScript, WNOHANG);
-		if (elapsedTime() > 100000){
+		if (elapsedTime() > 10000000){
 			_bufferResponsePipe = "STATUS CODE: 504";
 			close(_pipe[0]);
 			kill(_pid, SIGKILL);
@@ -134,11 +171,6 @@ std::size_t	CGI::getTime(){
 
     gettimeofday(&tv, NULL);
     return ((tv.tv_sec * 1000 * 1000 + tv.tv_usec));
-}
-
-void	CGI::writeContentBodyInPipe(){
-	if (not _body.empty())
-		write(_pipe[1], _body.c_str(), static_cast<ssize_t>(_body.size()));
 }
 
 void CGI::setEnv(){
@@ -183,6 +215,7 @@ CGI::CGI(){
 	_body = "";
 	_version = "";
 	_server_name = "";
+	_maxBodySize = 0;
 }
 
 void	CGI::setContentLength(std::string contentLength){
@@ -219,6 +252,10 @@ void	CGI::setPathTraslated(std::string pathTraslated){
 
 void	CGI::setServerName(std::string server_name){
 	this->_server_name = server_name;
+}
+
+void	CGI::setMaxBodySize(std::size_t maxBody){
+	_maxBodySize = maxBody;
 }
 
 void	CGI::setPathCGI(std::string pathCGI){

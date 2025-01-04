@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:25:54 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/26 13:45:58 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/04 17:13:24 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include "algorithm"
 #include "Chunked.hpp"
 #include "SimpleBody.hpp"
+
 
 int	Request::setRequestLine(string &buffer){
 	string	requestLine;
@@ -94,7 +95,6 @@ void	Request::initSimpleBody(){
 
 void	Request::initChunked(){
 	Chunked *chunked = new Chunked();
-
 	body = chunked;
 }
 

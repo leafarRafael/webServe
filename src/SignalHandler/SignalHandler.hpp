@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   Log.hpp                                            :+:      :+:    :+:   */
+/*   SignalHandler.hpp                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/02 12:06:28 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/04 11:44:11 by rbutzke          ###   ########.fr       */
+/*   Created: 2025/01/04 17:24:32 by rbutzke           #+#    #+#             */
+/*   Updated: 2025/01/04 18:06:44 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 
-#include "Color.hpp"
-#include <iostream>
-#include <cstdarg>
-#include <ostream>
+#include <csignal>
 
-class Log{
+class SignalHandler{
 	private:
-		static int			index;
-		static std::string	color[];
-		Log();
-		~Log();
+		static bool _break;
+		SignalHandler(){};
+		~SignalHandler(){};
 	public:
-		static void	message(const char *first, ...);
+		static void	ignoreSigPipe();
+		static void	signalHandler(int signal);
+		static bool	breakLooping();
+		static void	setBreakLooping(bool value);		
 };
-

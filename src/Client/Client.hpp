@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/11 22:22:08 by myokogaw          #+#    #+#             */
-/*   Updated: 2024/12/20 14:08:15 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/04 15:59:30 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ class Client{
 		long long int	_maxSize;
 
 	public:
+	    bool operator==(const Client& other) const {return (this == &other);}
 		Client(Server &server, int fdClient);
 		~Client();
 

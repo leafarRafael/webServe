@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/13 12:10:27 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/13 12:37:50 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/04 15:34:11 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int		AHeaders::validContentLength(Client *client){
 	if (client->getMaxSize() < length)
 		return 413;
 	return 0;
-};
+}
 
 int		AHeaders::validAmbiguityHeaders(){
 	if (_header.count(CLENGTH) && _header.count(TENCODING))

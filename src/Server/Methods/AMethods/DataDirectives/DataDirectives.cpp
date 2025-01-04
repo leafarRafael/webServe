@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 13:47:45 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/01 15:55:00 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/04 12:33:48 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,9 @@ void	DataDirectives::addGlobalDirectives(DataServer dataServer){
 	_root = dataServer.getRootOBJ();
 	_index = dataServer.getIndexOBJ();
 	_errorPage = dataServer.getErrorPageOBJ();
-	_errorPage = dataServer.getErrorPageOBJ();
-	_allowMethods = dataServer.getAllowMethodsOBJ();
 	_allowMethods = dataServer.getAllowMethodsOBJ();
 	_returnIndex = dataServer.getReturnOBJ();
+	_maxBodySize = dataServer.getMaxBodySizeOBJ();
 }
 
 void	DataDirectives::addLocationDirectives(DataLocation dataLocation){

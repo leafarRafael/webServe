@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 11:58:19 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/19 17:29:08 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/04 15:30:04 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,14 +31,13 @@ class WebServ : public ParseRequest, public Epoll {
 		std::list<Client *>					_client;
 		std::list<Server>					_servers;
 
-
 		void	manangerResponse(void *ptr);
 		int		removeClient(Request *request, Client *client);
 		bool	isNewClient(int fd);
 		void	checkTimeOut();
 		void	ereaseClient(Client *client);
 		void	receiveCustomerData(void *ptr);
-		
+
 	public:
 		~WebServ();
 		WebServ(std::list<Server> servers);

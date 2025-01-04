@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 14:17:03 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/03 16:35:46 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/04 12:35:42 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ class CGI{
 		int 				_bytesRead;
 		int 				_statusScript;
 		std::string			_bufferResponsePipe;
+		std::size_t			_maxBodySize;
 
 		std::string 		_contentLength;
 		std::string 		_contentType;
@@ -39,8 +40,8 @@ class CGI{
 
 		void				setEnv();
 		void				unSetEnv();
-		void				writeContentBodyInPipe();
-		void				initPipeAndFork();
+		bool				writeContentBodyInPipe();
+		bool				initPipeAndFork();
 		void				childProcess();
 		void				parentProcess();
 		bool				timeOut();
@@ -64,5 +65,6 @@ class CGI{
 		void	setPathInfo(std::string pathInfo);
 		void	setPathCGI(std::string pathCGI);
 		void	setBody(std::string body);
+		void	setMaxBodySize(std::size_t maxBody);
 };
 

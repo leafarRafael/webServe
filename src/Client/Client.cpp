@@ -12,6 +12,7 @@
 
 #include "Client.hpp"
 #include <unistd.h>
+#include "Request.hpp"
 
 Client::Client(Server &server, int fdClient) : _server(server), _socketFdClient(fdClient) {
 	_request = NULL;

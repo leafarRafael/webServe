@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:28:27 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/03 18:27:17 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/04 11:10:57 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ class AMethods : public DataRequest, public DataDirectives{
 		
 		std::string 	getFile(std::string url);
 		void			processFile();
-		void			processError(int statusError);
 		void			processReturnDirective();
 		std::string		commonGatewayInterface();
 	public:
+		void			processError(int statusError);
 		AMethods();
 		virtual ~AMethods();
 		HTTP 			getHTTP();

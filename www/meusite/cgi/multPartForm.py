@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-from sys import stdin
+from sys import stdin, stderr
 
 class Content:
 	def __init__(self):
@@ -78,6 +78,7 @@ def setElements(content_parts, parts):
 			content.set_body(body)
 			content.parse_header(header)
 			content_parts.append(content);
+			''' print(body, file=stderr) '''
 
 def setValueCreateFile(content_parts):
     titulo = ""
@@ -120,8 +121,8 @@ if __name__ == "__main__":
 	content_length = os.environ.get("CONTENT_LENGTH", "0")
 	content_length = int(content_length) if content_length.isdigit() else 0
 	content_type = os.environ.get("CONTENT_TYPE", "")
-	body =  stdin.buffer.read(content_length)
 
+	body =  stdin.buffer.read(content_length)
 	parts = split_multpart(content_type, body)
 	content_parts = []
 	setElements(content_parts, parts)

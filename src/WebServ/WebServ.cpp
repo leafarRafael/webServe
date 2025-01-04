@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 11:58:02 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/03 12:17:14 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/04 18:08:16 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,22 @@
 #include "Server.hpp"
 #include "Client.hpp"
 #include "Log.hpp"
+#include "SignalHandler.hpp"
 
 using namespace std;
 
-WebServ::~WebServ() {};
+WebServ::~WebServ(){
+	std::list<Client *>::iterator it, ite;
+
+	it = _client.begin();
+	ite = _client.end();
+	while (it != ite){
+		delete *it;
+		it++;
+	}
+	_client.clear();
+
+};
 WebServ::WebServ(std::list<Server> servers) : ParseRequest(), Epoll(), _servers(servers){
 	initEpollStruct();
 	createEpoll();
@@ -37,24 +49,24 @@ WebServ::WebServ(std::list<Server> servers) : ParseRequest(), Epoll(), _servers(
 void	WebServ::loopingEvent() {
 	while(true)
 	{
+		if (SignalHandler::breakLooping())
+			break ;
 		_nfds = epoll_wait(_epollFd, _events, MAX_EVENTS, 1000);
-		if (_nfds == 0)
-		{
+		if (_nfds == 0){
 			checkTimeOut();
 			continue ;
 		}
 		for(int index_epoll = 0; index_epoll < _nfds; index_epoll++)
 		{
-			if (_events[index_epoll].events == EPOLLIN)
-			{
+			if (_events[index_epoll].events == EPOLLIN){
 				if (isNewClient(_events[index_epoll].data.fd))
 					continue ;
 				receiveCustomerData(_events[index_epoll].data.ptr);
 			}
 			else
-			{
 				manangerResponse(_events[index_epoll].data.ptr);
-			}
+			if (SignalHandler::breakLooping())
+				break ;
 		}
 	}
 }
@@ -71,7 +83,7 @@ bool	WebServ::isNewClient(int fd){
 			Log::message("Connection accepted: ",
 				it->getDataServerOBJ().getServerName().c_str(),
 				" Cliente fd [", intToString(fdClient).c_str(), "]", 0);
-			Client *client = new Client(*it, fdClient);		
+			Client *client = new Client(*it, fdClient);
 			client->setMaxSize(it->getMaxBodySize());
 			_client.push_back(client);
 			epoll_CTRL(fdClient, EPOLLIN, EPOLL_CTL_ADD, (void*)(client));

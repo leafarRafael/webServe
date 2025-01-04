@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:36:23 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/03 18:27:09 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/04 12:35:02 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	AMethods::setCGI(Server &server){
 	_cgi.setContentLength(_content_length);
 	_cgi.setContentType(_content_type);
 	_cgi.setHTTPVersion(_http_version);
+	_cgi.setMaxBodySize(_maxBodySize.getMaxBodySize());
 	_cgi.setServerName(server.getDataServerOBJ().getServerName());
 }
 
