@@ -132,6 +132,8 @@ if __name__ == "__main__":
     content_length = int(content_length) if content_length.isdigit() else 0
     content_type = os.environ.get("CONTENT_TYPE", "")
 
+    if path_translated.find('/update/') == -1:
+        exit(1);
     print(html_open)
     for file_name in os.listdir(path_translated):
         complet_path = os.path.join(path_translated, file_name)

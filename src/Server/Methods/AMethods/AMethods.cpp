@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:36:23 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/05 13:25:40 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/05 19:50:11 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,20 +50,27 @@ std::string		AMethods::commonGatewayInterface(){
 }
 
 void	AMethods::setPathTraslated(Server &server){
+	DataLocation location;
+	DataLocation locationTraslated;
+	
 	if (not _path_info.empty()){
-		DataLocation location = FindLocation::findLocation(server, _path_info);
+		location = FindLocation::findLocation(server, _path_info);
 		if (not location.empty())
 			_pathTraslated = location.getRoot();
 		else
 			_pathTraslated = server.getDataServerOBJ().getRoot() + _path_info;			
 	}
 	if (_pathTraslated.empty()){
-		DataLocation location = FindLocation::findLocation(server, _path_html);
+		location = FindLocation::findLocation(server, _path_html);
 		if (not location.empty())
 			_pathTraslated = location.getRoot();
 		else
 			_pathTraslated = server.getDataServerOBJ().getRoot() + _path_info;			
-	}	
+	}
+	if (not location.empty()){
+		_isAllowMethodInPathTraslated = location.isAllowedMethod(_method);
+		_existeTraslated = true;
+	}
 }
 
 AMethods::AMethods() : DataRequest(){
@@ -76,6 +83,7 @@ AMethods::AMethods() : DataRequest(){
 	_http.setHeaders("Server", "MyServer");
 	_http.setHeaders("Date", getCurrentDateTime(time));
 	_http.setHeaders("Connection", "close");
+
 }
 
 HTTP AMethods::getHTTP(){	
@@ -170,13 +178,23 @@ void	AMethods::processFile(){
 	std::string		file;
 
 	file = getFile(_path_html);
-	path = _root.getRoot();
+	if (not file.empty()){
+		path = _root.getRoot();
+		if (path[path.size() - 1] != '/' && file[0] != '/')
+			path += '/';
+		path += file;
+		if (file.size() == 1 && file[0] == '/')
+			path += _index.getIndex();
+	}else
+		path = _path_html;
+	
+/* 	path = _root.getRoot();
 	if (path[path.size() - 1] != '/' && file[0] != '/')
 		path += '/';
 	path += file;
 	if (file.size() == 1 && file[0] == '/'){
 		path += _index.getIndex();
-	}
+	} */
 	addResponseBody(path);
 }
 

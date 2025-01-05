@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 13:41:20 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/05 16:22:43 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/05 16:39:50 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,6 @@ void	ParseValidation::validDirectivesServer(std::string &buffer){
 		throw (std::runtime_error("Directive 'server' in scope Server not found."));
 	if (listen == 0)
 		throw (std::runtime_error("Directive 'listen' in scope Server not found."));
-/* 	if (server_name == 0)
-		throw (std::runtime_error("Directive 'server_name' in scope Server not found.")); */
 	if (root == 0)
 		throw (std::runtime_error("Directive 'root' in scope Server not found."));
 }

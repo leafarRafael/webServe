@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/18 14:02:09 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/18 17:51:46 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/05 17:47:49 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	ParseTokens::addBlockLocation(blockServer &server){
 	
 	pos = server._serverScope.find("location");
 	braces = server._serverScope.find('}');
-	if (pos == std::string::npos || braces == std::string::npos) 
+	if (pos == std::string::npos || braces == std::string::npos)
 		return ;
 	location = server._serverScope.substr(pos, braces - pos +1);
 	server._serverScope.erase(pos, braces - pos +1);

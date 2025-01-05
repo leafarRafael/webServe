@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:56:29 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/01 13:39:33 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/05 17:56:59 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,25 @@ void	Settings::addServerDirective(list<string> &tokens){
 	list<string>::iterator it = tokens.begin(), ite = tokens.end();
 
 	while(it != ite){
-		setDirective((*it));
+		trim(*it);
+		if (not it->empty())
+			setDirective((*it));
 		it++;
 	}	
 }
 
 void	Settings::setDirective(string directive){
+	bool	find = false;
 	for(int i = 0; i < 7; i++){
 		if(directive.find(_ptrMethods[i].input) != string::npos){
 			(_directiveServer.*(_ptrMethods[i].function))(directive);
+			find = true;
 			break ;
 		}
+	}
+	if (not find){
+		std::string error = "Error: directve: " + directive + " unknow.";
+		throw (std::runtime_error(error.c_str()));
 	}
 }
 

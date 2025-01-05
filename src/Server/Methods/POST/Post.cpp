@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:15:40 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/04 17:47:50 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/05 19:40:17 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ Post::~Post(){}
 HTTP	Post::createHTTP(){
 	if (_errorRequest)
 		processError(_errorRequest);
+	else if (not _existeTraslated)
+		processError(404);
+	else if (not _isAllowMethodInPathTraslated)
+		processError(405);
 	else if (not _returnIndex.empty())
 		processReturnDirective();
 	else if (not _path_cgi.empty())

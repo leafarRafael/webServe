@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:15:40 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/03 15:07:13 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/05 19:11:48 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ HTTP	Delete::createHTTP(){
 	else if (not _returnIndex.empty())
 		processReturnDirective();
 	else if (not _allowMethods.isAllowedMethod(_method)){
-		processError(403);
+		processError(405);
 		return getHTTP();
 	}
 	file = _pathTraslated + getFile(_path_html);

@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 09:44:27 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/31 12:40:53 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/05 18:45:42 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ DataLocation FindLocation::findLocation(Server &server, Request &request){
 	}
 	return validIfHaveLocation(path, server);
 }
-
 
 DataLocation FindLocation::findLocation(Server &server, std::string path){
 	DataLocation	location;
