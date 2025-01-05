@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 13:25:54 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/04 17:13:24 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/05 15:55:19 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int	Request::setHeader(string &buffer, Client *client){
 
 	if (_parsedHeaders == true)
 		return 0;
+	if (buffer[0] == '\r' && buffer[1] == '\n')
+		return 400;
 	headers = getLineErase<string, string>(buffer, "\r\n\r\n", true);
 	if (headers.empty())
 		throw Request::RequestException("");

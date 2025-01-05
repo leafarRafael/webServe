@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 18:06:41 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/04 22:18:12 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/05 15:45:50 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ void	ParseRequest::setBuffer(int fd){
 
 	memset(buffer, 0, 8012 +1);
 	bytesRead = recv(fd, buffer, 8012, MSG_DONTWAIT);
+	if (bytesRead <= 0 )
+		_socket[fd].request->setParserError(-1);
 	_socket[fd].buffer.append(buffer, bytesRead);
 }
 

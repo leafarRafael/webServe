@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 11:58:02 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/05 13:35:45 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/05 15:58:59 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,10 @@ void	WebServ::receiveCustomerData(void *ptr){
 		if (request)
 		{
 			client->setRequest(request);
-			epoll_CTRL(client->getFdClient(), EPOLLOUT, EPOLL_CTL_MOD, (void*)(client));
+			if (request->getParserError() == -1)
+				removeClient(request, client);
+			else
+				epoll_CTRL(client->getFdClient(), EPOLLOUT, EPOLL_CTL_MOD, (void*)(client));
 		}
 	}
 }
@@ -118,13 +121,15 @@ void	WebServ::manangerResponse(void *ptr){
 
 void	WebServ::checkTimeOut(){
 	std::list<Client*>::iterator it = _client.begin();
+	char	c;
 
 	if(it == _client.end())
 		return ;
 	while (it != _client.end()){
-		if ((*it)->timeOut()){
+		if ((*it)->timeOut() || recv((*it)->getFdClient(), &c, 1, MSG_PEEK) <= 0){
 			Request *request = (Request *)(*it)->getRequest();
 			removeFdToParseRequest((*it)->getFdClient());
+			epoll_CTRL((*it)->getFdClient(), EPOLLOUT, EPOLL_CTL_DEL, NULL);
 			close((*it)->getFdClient());
 			if (request)
 				delete request;

@@ -39,6 +39,5 @@ int main(int ac, char **av){
 	catch(std::exception &e)
 	{
 		cout << e.what() << "\n";
-		exit(1);
 	}
 }
