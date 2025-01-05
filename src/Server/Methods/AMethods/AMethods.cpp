@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:36:23 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/04 12:35:02 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/05 13:25:40 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,13 @@ void	AMethods::addResponseBody(std::string fileName){
 	else
 		_bufferBody = GetFile::getBufferFile(fileName);
 	if(_bufferBody.empty())
+		_bufferBody = GetFile::getBufferFile(_root.getRoot() + _path_html);
+	if(_bufferBody.empty())
 		processError(404);
 	else{
 		_statusCode = 200;
 		_reasonPhrase = ReasonPhrase::getPhrase(200);
-		_contentType = getMime(_path_cgi);
+		_contentType = getMime(_path_html);
 	}	
 }
 
@@ -169,6 +171,8 @@ void	AMethods::processFile(){
 
 	file = getFile(_path_html);
 	path = _root.getRoot();
+	if (path[path.size() - 1] != '/' && file[0] != '/')
+		path += '/';
 	path += file;
 	if (file.size() == 1 && file[0] == '/'){
 		path += _index.getIndex();

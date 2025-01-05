@@ -47,5 +47,5 @@ long long int	Client::getMaxSize() const{
 }
 
 int		Client::timeOut(void) {
-	return ((time(0) - _startTime) > 10) ? 408 : 0;
+	return ((time(0) - _startTime) > 30) ? 408 : 0;
 }

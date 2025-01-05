@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 18:00:02 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/04 15:58:51 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/04 22:20:31 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,12 @@ struct ctrlFD{
 	bool		parsedBody;
 	int			lentgh;
 	std::string	buffer;
+	ctrlFD(){
+		request = NULL;
+		parsedBody = false;
+		lentgh = 0;
+		buffer = "";
+	}
 };
 
 class ParseRequest{

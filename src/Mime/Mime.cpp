@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 11:05:36 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/21 13:07:59 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/05 12:37:51 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,5 +121,7 @@ std::string	Mime::getExtension(std::string path){
 	tokens = split<std::string, char, std::list<std::string> >(path, '.');
 	if (tokens.empty())
 		return "html";
+	if (tokens.back() == "js")
+		return "javascript";
 	return tokens.back();
 }

@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 13:47:45 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/04 12:33:48 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/04 20:13:05 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,8 @@ void	DataDirectives::selectDirectives(Server &server, Request &request){
 	addGlobalDirectives(dataServer);
 	
 	dataLocation = findDataLocation(server, request);
-	if (not dataLocation.empty()){
+	if (not dataLocation.empty())
 		addLocationDirectives(dataLocation);
-	}
 }
 
 void	DataDirectives::addGlobalDirectives(DataServer dataServer){

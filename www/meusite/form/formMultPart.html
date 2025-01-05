@@ -3,57 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário de Cadastro</title>
-    <style>
-        table {
-            width: 50%;
-            margin: 20px auto;
-            border-collapse: collapse;
-        }
-        th, td {
-            padding: 10px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        input[type="text"], input[type="file"] {
-            width: 100%;
-            padding: 8px;
-            box-sizing: border-box;
-        }
-        .button-container {
-            text-align: center;
-            margin-top: 20px;
-        }
-        button {
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: #007BFF;
-            color: white;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
-    <script>
-        function validateForm() {
-            var titulo = document.forms["uploadForm"]["titulo"].value;
-            var subtitulo = document.forms["uploadForm"]["subtitulo"].value;
-            var foto = document.forms["uploadForm"]["foto"].value;
-
-            if (titulo == "" || subtitulo == "" || foto == "") {
-                alert("Por favor, preencha todos os campos obrigatórios.");
-                return false;
-            }
-            return true;
-        }
-    </script>
+    <title>Uploud de Imagens</title>
+    <link rel="stylesheet" href="/css/stylesMultPart.css">
+    <script src="/js/multPartScript.js" defer></script>
 </head>
 <body>
     <h2 style="text-align: center;">Upload de Imagens</h2>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Query String Form</title>
+    <link rel="stylesheet" href="/css/stylesQuery.css">
+</head>
+<body>
+    <h1>Query String</h1>
+    <p>Fill in the fields below and click "Submit" to send data as a query string.</p>
+
+    <form action="/cgi/queryString.php" method="GET">
+        <label for="first_name">Nome:</label>
+        <input type="text" id="first_name" name="first_name" placeholder="Digite seu nome">
+
+        <label for="last_name">Sobrenome:</label>
+        <input type="text" id="last_name" name="last_name" placeholder="Digite seu sobrenome">
+
+        <label for="phone">Telefone:</label>
+        <input type="text" id="phone" name="phone" placeholder="Digite seu telefone">
+
+        <div class="button-container">
+            <button type="submit">Enviar</button>
+        </div>
+    </form>
+
+</body>
+</html>

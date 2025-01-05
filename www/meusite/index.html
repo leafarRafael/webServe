@@ -3,110 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Página com Botões e Imagens</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            background-color: #f4f4f4;
-        }
-        header {
-            background-color: #007BFF;
-            color: white;
-            padding: 15px;
-            text-align: center;
-        }
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 10px;
-            margin-top: 20px;
-            width: 100%;
-        }
-        .content {
-            max-width: 1200px;
-            margin: 20px auto;
-            padding: 20px;
-            background: white;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            border-radius: 8px;
-        }
-        .section {
-            margin-bottom: 40px;
-            padding: 20px;
-            border-radius: 8px;
-        }
-        .section:nth-child(1) {
-            background-color: #e3f2fd;
-        }
-        .section:nth-child(2) {
-            background-color: #e8f5e9;
-        }
-        .section:nth-child(3) {
-            background-color: #fff3e0;
-        }
-        .section:nth-child(4) {
-            background-color: #fce4ec;
-        }
-        .section h2 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #333;
-        }
-        .link-image-container {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            margin-top: 20px;
-        }
-        .link-image {
-            text-align: center;
-            flex: 1;
-        }
-        .link-image img {
-            width: 100%;
-            max-width: 300px;
-            height: auto;
-            aspect-ratio: 1/1;
-            object-fit: cover;
-            border-radius: 8px;
-            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
-        }
-        .link-image button {
-            margin-top: 10px;
-            padding: 10px 20px;
-            font-size: 16px;
-            cursor: pointer;
-            border: none;
-            border-radius: 5px;
-            background-color: #007BFF;
-            color: white;
-            transition: background-color 0.3s ease;
-        }
-        .link-image button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <title>WebServ</title>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
     <header>
         <h1>WebServe</h1>
     </header>
-
     <div class="content">
         <div class="section">
             <h2>Seção 1</h2>
             <div class="link-image-container">
                 <div class="link-image">
-                    <img src="/imagens/img.png" alt="">
+                    <img src="/imagens/multpart.jpeg" alt="">
                     <button onclick="window.location.href='/form/formMultPart.html/cgi/multPartForm.py/update/'">MultPart</button>
                 </div>
                 <div class="link-image">
-                    <img src="/imagens/images.png" alt="Imagem 2">
-                    <button onclick="window.location.href='/form/fomrQueryString.html'">QueryString</button>
+                    <img src="/imagens/queryString.png" alt="Imagem 2">
+                    <button onclick="window.location.href='/form/formQueryString.html'">QueryString</button>
                 </div>
                 <div class="link-image">
                     <img src="/imagens/arquivo.png" alt="Directory">
@@ -115,7 +29,7 @@
             </div>
         </div>
     <footer>
-        <p>&copy; 2024 Minha Página</p>
+        <p>&copy; 2025 Minha Página</p>
     </footer>
 </body>
 </html>

@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:38:03 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/04 17:19:39 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/04 20:16:42 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	Server::response(int fd, Request *request) {
 	methods->setAtributes(*this,  *request);
 	http  = methods->createHTTP();
 	send(fd, http.getHTTP().c_str(), http.getHTTP().length(), 0);
-
 	delete methods;
 }
 
