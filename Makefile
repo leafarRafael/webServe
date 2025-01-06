@@ -168,7 +168,7 @@ debug: re
 	./$(NAME) "DEBUG"
 
 valgrind: re
-	valgrind --leak-check=full --track-origins=yes --child-silent-after-fork=no ./$(NAME) fileConf/conf.conf
+	valgrind --leak-check=full --track-origins=yes ./$(NAME) fileConf/conf.conf
 
 curl:
 	curl -X POST -H "Transfer-Encoding: chunked" -H "Content-Type: application/json" --data-binary @index/dados.json 127.0.0.1:8080

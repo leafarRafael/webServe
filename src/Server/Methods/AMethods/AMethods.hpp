@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:28:27 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/05 19:28:32 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/06 12:57:56 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,12 @@
 #include "Mime.hpp"
 
 
+enum type{
+	T_NOT_EXIST = -1,
+	T_DIRECTORY = 1,
+	T_FILE = 2,
+};
+
 class AMethods : public DataRequest, public DataDirectives{
 	protected:
 		Mime			_mimes;
@@ -46,6 +52,7 @@ class AMethods : public DataRequest, public DataDirectives{
 		void			setCGI(Server &server);
 		std::string		getMime(std::string path);
 		int				getErrorValue();
+		int				pathIs(const std::string& path);
 		
 		std::string 	getFile(std::string url);
 		void			processFile();

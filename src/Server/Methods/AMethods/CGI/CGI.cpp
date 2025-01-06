@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/24 14:19:22 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/04 21:44:59 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/06 17:56:49 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,16 @@
 #include "SignalHandler.hpp"
 
 std::string	CGI::commonGatewayInterface(){
-	if(initPipeAndFork())
+	SignalHandler::restoreSignal();
+	if(initPipeAndFork()){
+		SignalHandler::configSignal();
 		return _bufferResponsePipe;
+	}
 	if (_pid == 0)
 		childProcess();
 	else
 		parentProcess();
+	SignalHandler::configSignal();
 	return _bufferResponsePipe;
 }
 
@@ -89,12 +93,13 @@ void 	CGI::parentProcess(){
 	if (writeContentBodyInPipe())
 		return ;
 	unSetEnv();
-	close(_pipe[1]);
 	if (waitValidExitStatus())
 		return ;
 	_bytesRead = 1;
-	while (_bytesRead){
+	while (_bytesRead > 0){
 		_bytesRead = read(_pipe[0], _bufferToRead, 4010);
+		if (_bytesRead == 0)
+			break ;
 		if (_bytesRead == -1){
 			_bufferResponsePipe = "STATUS CODE: 504";
 			Log::message("read error; broken pipe ", 0);
@@ -117,8 +122,10 @@ bool	CGI::writeContentBodyInPipe(){
 		unSetEnv();
 		return true;
 	}
-	if (_body.empty())
+	if (_body.empty()){
+		close(_pipe[1]);
 		return false;
+	}
 	const char	*body = _body.c_str();
 	ssize_t		bodySize = static_cast<ssize_t>(_body.size());
 	ssize_t		buffer = 4098;
@@ -133,6 +140,7 @@ bool	CGI::writeContentBodyInPipe(){
 		positionInBuffer += bufferToWritten;
 		bodySize -= bufferToWritten;	
 	}
+	close(_pipe[1]);
 	return false;
 }
 

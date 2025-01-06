@@ -26,9 +26,7 @@ using namespace std;
 int main(int ac, char **av){
 	std::list<Server>	servers;
 	ParseConf			parse;
-    SignalHandler::ignoreSigPipe();
-   	signal(SIGINT, SignalHandler::signalHandler);
-    signal(SIGTERM, SignalHandler::signalHandler);
+	SignalHandler::configSignal();
 	try
 	{
 		if (ac == 2)

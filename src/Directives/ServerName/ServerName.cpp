@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:23:54 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/22 10:24:31 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/06 14:41:34 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,6 @@ ServerName&ServerName::operator=(ServerName const &origin){
 	return *this;
 }
 
-ServerName::ServerName() : DirectivesBase(){}
+ServerName::ServerName() : DirectivesBase(){
+	_serverName = "";
+}

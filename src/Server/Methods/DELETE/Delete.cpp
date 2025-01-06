@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:15:40 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/05 19:11:48 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/06 12:58:44 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ HTTP	Delete::createHTTP(){
 		return getHTTP();
 	}
 	file = _pathTraslated + getFile(_path_html);
-	if (pathIsFile(file)){
+	if (pathIs(file) == T_FILE){
 		if (remove(file.c_str()) == 0){
 			_statusCode = 204;
 			_reasonPhrase = ReasonPhrase::getPhrase(204);
@@ -46,17 +46,4 @@ HTTP	Delete::createHTTP(){
 	}else
 		processError(400);
 	return getHTTP();
-}
-
-int		Delete::pathIsFile(const std::string& path)
-{
-	struct stat s;
-
-	if (stat(path.c_str(), &s) != 0)
-		return -1;
-	if (S_ISDIR(s.st_mode))
-		return 0;
-	if (S_ISREG(s.st_mode))
-		return 1;
-	return 0;
 }

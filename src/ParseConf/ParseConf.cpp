@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:35:36 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/05 17:57:44 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/06 14:20:54 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,9 +90,8 @@ void	ParseConf::initServers(){
 			ctlrIP[server.getIP()];
 			ctlrPort[server.getPort()];
 			server.initTCP(server.getPort().c_str(), 10, server.getIP().c_str());
-			Log::message("Socket created. ", "IP:",
-				server.getIP().c_str(), "; Port: ",
-				server.getPort().c_str(), 0);
+			Log::message("Socket created:", "IP", server.getIP().c_str(),
+				"Port:", server.getPort().c_str(), 0);
 			_server.push_back(server);
 		}
 	}

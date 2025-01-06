@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/02 12:07:03 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/04 11:49:49 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/06 14:07:29 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,11 @@ void	Log::message(const char *first, ...){
 		index = 0;
 	std::cerr << ITALI << BOLD << SUBLI << color[index];
 	do{
-		if (str != NULL)
+		if (str != NULL){
+			std::cerr << ITALI << BOLD << SUBLI << color[index];
 			std::cerr << str;
+			std::cerr << RESET << " ";
+		}
 		str = va_arg(vl, const char *);
 	}while (str != NULL);
 	index++;

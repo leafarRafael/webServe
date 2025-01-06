@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:37:59 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/04 20:16:12 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/06 14:49:57 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,9 @@ class Directive;
 
 class Server : public Socket, public Settings{
 	private:
-		std::map<int, Request *>	fdClient;
 		int							_socketFd;
-
 		AMethods	*defineMethods(std::string method);
+
 	public:
 		Server();
 		~Server();

@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 11:56:29 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/05 17:56:59 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/06 14:47:56 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,14 @@ std::string	Settings::getIP(){
 
 std::string	Settings::getPort(){
 	return _directiveServer.getPort();
+}
+
+std::string	Settings::getIpPort(){
+	return _directiveServer.getIP() + ":" + _directiveServer.getPort();
+}
+
+std::string		Settings::getServerName(){
+	return _directiveServer.getServerName();
 }
 
 std::size_t	Settings::getMaxBodySize(){

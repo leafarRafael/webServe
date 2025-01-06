@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import os
+from sys import stdin, stdout
 
 html_open = '''<!DOCTYPE html>
 <html lang="en">
@@ -15,14 +16,12 @@ html_open = '''<!DOCTYPE html>
             padding: 0;
             background-color: #f4f4f4;
         }
-
         .gallery {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 20px;
             padding: 20px;
         }
-
         .gallery-item {
             text-align: center;
             border: 1px solid #ccc;
@@ -31,24 +30,20 @@ html_open = '''<!DOCTYPE html>
             background-color: #fff;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
         }
-
         .gallery-item img {
             max-width: 100%;
             height: auto;
             border-radius: 5px;
         }
-
         .gallery-item h3 {
             margin: 10px 0 5px;
             font-size: 18px;
         }
-
         .gallery-item p {
             margin: 0;
             font-size: 16px;
             color: #555;
         }
-
         .delete-button {
             margin-top: 10px;
             padding: 8px 16px;
@@ -60,7 +55,6 @@ html_open = '''<!DOCTYPE html>
             cursor: pointer;
             transition: background-color 0.3s ease;
         }
-
         .delete-button:hover {
             background-color: #cc0000;
         }
@@ -98,7 +92,7 @@ html_close = '''
             console.error('Erro ao excluir a imagem:', error);
         })
         .finally(() => {
-            // Tenta excluir o arquivo HTML
+
             fetch(htmlPath, {
                 method: 'DELETE'
             })
@@ -113,7 +107,6 @@ html_close = '''
                 console.error('Erro ao excluir o arquivo HTML:', error);
             })
             .finally(() => {
-                // Verifica o status final de exclusão
                 checkDeletionStatus();
             });
         });
@@ -143,4 +136,6 @@ if __name__ == "__main__":
                 arquivo.close()
                 print(content)
     print(html_close)
+    stdin.close()
+    stdout.close()
     exit(0);

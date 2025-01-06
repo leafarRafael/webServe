@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:36:23 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/05 19:50:11 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/06 14:30:21 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include "unistd.h"
 #include <fcntl.h>
 #include "GetFile.hpp"
-
+#include <sys/stat.h>
 #include "FindLocation.hpp"
 
 AMethods::~AMethods(){}
@@ -86,7 +86,7 @@ AMethods::AMethods() : DataRequest(){
 
 }
 
-HTTP AMethods::getHTTP(){	
+HTTP AMethods::getHTTP(){
 	_http.setStatusResponse(_statusCode, _reasonPhrase);
 	_http.setHeaders("Content-Type", _contentType);
  	_http.setBody(_bufferBody);	
@@ -186,15 +186,7 @@ void	AMethods::processFile(){
 		if (file.size() == 1 && file[0] == '/')
 			path += _index.getIndex();
 	}else
-		path = _path_html;
-	
-/* 	path = _root.getRoot();
-	if (path[path.size() - 1] != '/' && file[0] != '/')
-		path += '/';
-	path += file;
-	if (file.size() == 1 && file[0] == '/'){
-		path += _index.getIndex();
-	} */
+		path = _root.getRoot();
 	addResponseBody(path);
 }
 
@@ -209,4 +201,16 @@ int AMethods::getErrorValue(){
 	value = _bufferBody.substr(posBegin, posEnd);
 	trim(value);
 	return toInt(value);
+}
+
+int		AMethods::pathIs(const std::string& path){
+	struct stat s;
+
+	if (stat(path.c_str(), &s) != 0)
+		return T_NOT_EXIST;
+	if (S_ISDIR(s.st_mode))
+		return T_DIRECTORY;
+	if (S_ISREG(s.st_mode))
+		return T_FILE;
+	return 0;
 }

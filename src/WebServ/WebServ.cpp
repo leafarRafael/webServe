@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 11:58:02 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/05 15:58:59 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/06 16:43:03 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,15 +49,12 @@ WebServ::WebServ(std::list<Server> servers) : ParseRequest(), Epoll(), _servers(
 void	WebServ::loopingEvent() {
 	while(true)
 	{
-		if (SignalHandler::breakLooping())
-			break ;
 		_nfds = epoll_wait(_epollFd, _events, MAX_EVENTS, 1000);
 		if (_nfds == 0){
 			checkTimeOut();
 			continue ;
 		}
-		for(int index_epoll = 0; index_epoll < _nfds; index_epoll++)
-		{
+		for(int index_epoll = 0; index_epoll < _nfds; index_epoll++){
 			if (_events[index_epoll].events == EPOLLIN){
 				if (isNewClient(_events[index_epoll].data.fd))
 					continue ;
@@ -65,9 +62,9 @@ void	WebServ::loopingEvent() {
 			}
 			else
 				manangerResponse(_events[index_epoll].data.ptr);
-			if (SignalHandler::breakLooping())
-				break ;
 		}
+		if (SignalHandler::breakLooping())
+			break ;
 	}
 }
 
@@ -80,9 +77,12 @@ bool	WebServ::isNewClient(int fd){
 			fdClient = accept(it->getSocketFd(), 0, 0);
 			if (fdClient == -1)
 				throw (runtime_error("error: epoll_ctl()"));
-			Log::message("Connection accepted: ",
-				it->getDataServerOBJ().getServerName().c_str(),
-				" Cliente fd [", intToString(fdClient).c_str(), "]", 0);
+			std::string	serverRef;
+			if ((serverRef = it->getDataServerOBJ().getServerName()).empty())
+				serverRef = it->getIpPort();
+			Log::message("Connection accepted:",
+				"Client fd:", intToString(fdClient).c_str(),
+				"Server:", serverRef.c_str(), 0);
 			Client *client = new Client(*it, fdClient);
 			client->setMaxSize(it->getMaxBodySize());
 			_client.push_back(client);
@@ -127,13 +127,18 @@ void	WebServ::checkTimeOut(){
 		return ;
 	while (it != _client.end()){
 		if ((*it)->timeOut() || recv((*it)->getFdClient(), &c, 1, MSG_PEEK) <= 0){
+			Client	 *client;
+			Log::message("Client fd:", intToString((*it)->getFdClient()).c_str(),
+				"was disconnected due to TimeOut.", 0);
 			Request *request = (Request *)(*it)->getRequest();
 			removeFdToParseRequest((*it)->getFdClient());
 			epoll_CTRL((*it)->getFdClient(), EPOLLOUT, EPOLL_CTL_DEL, NULL);
 			close((*it)->getFdClient());
 			if (request)
 				delete request;
+			client = (*it);
 			it = _client.erase(it);
+			delete client;
 		}else
 			it++;
 	}

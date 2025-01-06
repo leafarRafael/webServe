@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/15 20:08:05 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/02 12:33:45 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/06 14:47:20 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,9 @@ class Settings{
 		
 		std::string		getIP();
 		std::string		getPort();
+		std::string		getIpPort();
+		std::string		getServerName();
+		
 
 		void			setMaxBodySize(std::string maxBodySize);
 		std::size_t		getMaxBodySize();
