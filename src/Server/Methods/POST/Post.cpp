@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 14:15:40 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/05 19:40:17 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/06 19:31:59 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ Post::~Post(){}
 HTTP	Post::createHTTP(){
 	if (_errorRequest)
 		processError(_errorRequest);
+	else if(_maxBodyTraslated < toulong(_content_length))
+		processError(413);
 	else if (not _existeTraslated)
 		processError(404);
 	else if (not _isAllowMethodInPathTraslated)

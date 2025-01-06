@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/16 18:23:54 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/22 10:17:18 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/06 19:23:55 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,4 @@ MaxBodySize &MaxBodySize::operator=(MaxBodySize const &origin){
 	return *this;
 }
 
-MaxBodySize::MaxBodySize(): DirectivesBase(), _maxBodySize(10000000){}
+MaxBodySize::MaxBodySize(): DirectivesBase(), _maxBodySize(1000000){}

@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 12:45:47 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/05 19:40:17 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/06 19:28:12 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ class DataRequest{
 		int					_errorRequest;
 		bool				_isAllowMethodInPathTraslated;
 		bool				_existeTraslated;
+		std::size_t			_maxBodyTraslated;
+		std::size_t			_requestContentLenght;
 
 		std::string			_method;
 		std::string			_body;

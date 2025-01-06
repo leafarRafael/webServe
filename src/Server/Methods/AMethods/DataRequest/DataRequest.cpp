@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 12:50:25 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/05 19:40:17 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/06 19:28:41 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ DataRequest::DataRequest(){
 	_errorRequest = 0;
 	_isAllowMethodInPathTraslated = false;
 	_existeTraslated = false;
+	_maxBodyTraslated = 0;
+	_requestContentLenght = 0;
 }
 
 DataRequest::~DataRequest(){}
