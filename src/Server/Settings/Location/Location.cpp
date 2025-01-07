@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 15:30:08 by rbutzke           #+#    #+#             */
-/*   Updated: 2024/12/21 18:31:28 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/07 10:57:30 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ void	Location::addLocationToData(list<string> &tokens, DataLocation &data){
 	list<string>::iterator it = tokens.begin(), ite = tokens.end();
 
 	while(it != ite){
-		setDirective((*it), data);
+		trim(*it);
+		if (not it->empty())
+			setDirective((*it), data);
 		it++;
 	}	
 }
@@ -60,11 +62,18 @@ void	Location::normalizeLocation(list<string> &tokens){
 }
 
 void	Location::setDirective(string directive, DataLocation &data){
+	bool	find = false;
+
 	for(int i = 0; i < 8; i++){
 		if(directive.find(direc[i].input) != string::npos){
 			(data.*(direc[i].function))(directive);
+			find = true;
 			break ;
 		}
+	}
+	if (not find){
+		std::string error = "Error: directve " + directive + " unknow.";
+		throw (std::runtime_error(error.c_str()));
 	}
 }
 

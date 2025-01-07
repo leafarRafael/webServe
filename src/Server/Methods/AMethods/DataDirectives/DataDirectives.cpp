@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 13:47:45 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/04 20:13:05 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/07 12:34:51 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	DataDirectives::selectDirectives(Server &server, Request &request){
 	dataServer = server.getDataServerOBJ();
 	addGlobalDirectives(dataServer);
 	
+
 	dataLocation = findDataLocation(server, request);
 	if (not dataLocation.empty())
 		addLocationDirectives(dataLocation);
@@ -32,6 +33,8 @@ void	DataDirectives::addGlobalDirectives(DataServer dataServer){
 	_allowMethods = dataServer.getAllowMethodsOBJ();
 	_returnIndex = dataServer.getReturnOBJ();
 	_maxBodySize = dataServer.getMaxBodySizeOBJ();
+	if ((_server_name = dataServer.getServerName()).empty())
+		_server_name = dataServer.getIP() + ":" + dataServer.getPort();
 }
 
 void	DataDirectives::addLocationDirectives(DataLocation dataLocation){

@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:36:23 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/06 19:26:32 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/07 13:55:14 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 #include "GetFile.hpp"
 #include <sys/stat.h>
 #include "FindLocation.hpp"
+#include "Log.hpp"
 
 AMethods::~AMethods(){}
 
@@ -89,6 +90,10 @@ AMethods::AMethods() : DataRequest(){
 }
 
 HTTP AMethods::getHTTP(){
+	Log::message("Server:", _server_name.c_str(),
+		"Request to:", _path_html.c_str(),
+		"status code:", intToString(_statusCode).c_str(),
+		"reasonPhrase:", _reasonPhrase.c_str(), 0);
 	_http.setStatusResponse(_statusCode, _reasonPhrase);
 	_http.setHeaders("Content-Type", _contentType);
  	_http.setBody(_bufferBody);	
