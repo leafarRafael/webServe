@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 11:48:07 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/05 13:35:59 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/07 16:26:14 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ Socket::Socket(){
 	std::memset(&_addr, 0, sizeof(_addr));
 }
 
-void	Socket::initTCP(const char *port, int events, const char *ip) {
+void	Socket::initTCP(const char *port, const char *ip) {
 	_socketFd = 0;
 	try{
 		initSocket();
@@ -35,7 +35,7 @@ void	Socket::initTCP(const char *port, int events, const char *ip) {
 		setPortReusable();
 		setAddr(port, ip);
 		setAddrToSocket();
-		putSocketListeningLimit(events);
+		putSocketListeningLimit();
 	} catch(std::exception &e) {
 		std::cerr << e.what();
 	}
@@ -72,8 +72,8 @@ void	Socket::setAddrToSocket(){
 		throw std::runtime_error("error: failed to bind socket");
 }
 
-void	Socket::putSocketListeningLimit(int &events){
-	listen(_socketFd, events);
+void	Socket::putSocketListeningLimit(){
+	listen(_socketFd, BACK_LOG_LISTEN);
 }
 
 

@@ -31,6 +31,11 @@ int main(int ac, char **av){
 	{
 		if (ac == 2)
 			servers = parse.parseFileConf(av[1]);
+		else if (ac == 1){
+			servers = parse.parseFileConf("fileConf/default.conf");
+		}
+		else
+			return 1;
 		WebServ	web(servers);
 		web.loopingEvent();
 	}

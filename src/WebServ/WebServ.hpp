@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 11:58:19 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/05 13:35:49 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/07 16:37:17 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 #include "ParseRequest.hpp"
 #include "Epoll.hpp"
 
-# define MAX_EVENTS 10
+# define MAX_EVENTS 256
 
 class Client;
 class ServerDirective;

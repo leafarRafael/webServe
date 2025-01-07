@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 14:57:33 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/04 12:00:41 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/07 16:39:34 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	Epoll::addSocketsToEpoll(list<Server> servers) {
 }
 
 void	Epoll::initEpollStruct(){
-	for(int i = 0; i < 80; i++)
+	for(int i = 0; i < EPOLL_MAX_STRUCT; i++)
 		std::memset(&_events[i], 0, sizeof(_events[i]));
 	_epollFd = 0;
 }

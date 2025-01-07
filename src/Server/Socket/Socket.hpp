@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 11:46:49 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/05 13:36:09 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/07 16:26:45 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 # include <string>
 # include <netinet/in.h>
 # include <inttypes.h>
+
+#define BACK_LOG_LISTEN 256
 
 
 class Socket {
@@ -26,12 +28,12 @@ class Socket {
 		virtual void	setPortReusable();
 		virtual void	setAddr(const char *port, const char *ip);
 		virtual void	setAddrToSocket();
-		virtual void	putSocketListeningLimit(int &events);
+		virtual void	putSocketListeningLimit();
 
 	public:
 		Socket();
 		~Socket();
 		int				getSocketFd(void) const;
 		void			setSocketFd(const int socketFd);
-		virtual void	initTCP(const char *port, int events, const char *ip);
+		virtual void	initTCP(const char *port, const char *ip);
 };

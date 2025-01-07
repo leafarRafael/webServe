@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:35:36 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/06 18:18:49 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/07 16:26:30 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	ParseConf::initServers(){
 		if (not ctlrIP.count(server.getIP()) && not ctlrPort.count(server.getPort())){
 			ctlrIP[server.getIP()];
 			ctlrPort[server.getPort()];
-			server.initTCP(server.getPort().c_str(), 100, server.getIP().c_str());
+			server.initTCP(server.getPort().c_str(), server.getIP().c_str());
 			Log::message("Socket created:", "IP", server.getIP().c_str(),
 				"Port:", server.getPort().c_str(), 0);
 			_server.push_back(server);
