@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   GetFile.cpp                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: myokogaw <myokogaw@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/22 12:19:23 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/03 13:12:16 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/09 19:05:53 by myokogaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,13 @@ std::string GetFile::createFile(std::string fileName){
 }
 
 std::string GetFile::getBufferFile(std::string path){
+	DIR	*directory;
+
+	directory = opendir(path.c_str());
+	if (directory != NULL){
+		closedir(directory);
+		return std::string();
+	}
 	std::ifstream file(path.c_str(), std::ios::in | std::ios::binary);
 
 	if(!file)
