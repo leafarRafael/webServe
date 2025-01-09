@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ErrorDefault.hpp                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: myokogaw <myokogaw@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/03 11:25:12 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/03 14:47:13 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/09 19:10:27 by myokogaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ class ErrorDefault{
 <head>\n\
     <meta charset=\"UTF-8\">\n\
     <meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n\
-    <title>404 Not Found</title>\n\
+    <title>Error</title>\n\
     <style>\n\
         body {\n\
             font-family: Arial, sans-serif;\n\
