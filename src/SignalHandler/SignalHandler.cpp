@@ -6,11 +6,12 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/04 17:25:43 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/06 17:28:21 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/09 17:19:13 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "SignalHandler.hpp"
+#include <cstdlib>
 
 bool SignalHandler::_break = false;
 

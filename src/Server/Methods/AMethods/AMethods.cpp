@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/20 10:36:23 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/07 13:55:14 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/09 18:34:07 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,26 +53,29 @@ std::string		AMethods::commonGatewayInterface(){
 void	AMethods::setPathTraslated(Server &server){
 	DataLocation location;
 	DataLocation locationTraslated;
-	
+
 	if (not _path_info.empty()){
 		location = FindLocation::findLocation(server, _path_info);
 		if (not location.empty())
 			_pathTraslated = location.getRoot();
 		else
-			_pathTraslated = server.getDataServerOBJ().getRoot() + _path_info;			
+			_pathTraslated = server.getDataServerOBJ().getRoot() + _path_info;
 	}
 	if (_pathTraslated.empty()){
 		location = FindLocation::findLocation(server, _path_html);
 		if (not location.empty())
 			_pathTraslated = location.getRoot();
 		else
-			_pathTraslated = server.getDataServerOBJ().getRoot() + _path_info;			
+			_pathTraslated = server.getDataServerOBJ().getRoot() + _path_info;
 	}
 	if (not location.empty()){
 		_isAllowMethodInPathTraslated = location.isAllowedMethod(_method);
 		_existeTraslated = true;
 		if (not location.getMaxBodySizeOBJ().empty())
 			_maxBodyTraslated = location.getMaxBodySize();
+		else
+			_maxBodyTraslated = server.getMaxBodySize();
+
 	}
 }
 
@@ -90,10 +93,10 @@ AMethods::AMethods() : DataRequest(){
 }
 
 HTTP AMethods::getHTTP(){
-	Log::message("Server:", _server_name.c_str(),
+/* 	Log::message("Server:", _server_name.c_str(),
 		"Request to:", _path_html.c_str(),
 		"status code:", intToString(_statusCode).c_str(),
-		"reasonPhrase:", _reasonPhrase.c_str(), 0);
+		"reasonPhrase:", _reasonPhrase.c_str(), 0); */
 	_http.setStatusResponse(_statusCode, _reasonPhrase);
 	_http.setHeaders("Content-Type", _contentType);
  	_http.setBody(_bufferBody);	

@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 14:38:03 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/06 14:52:33 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/09 17:19:29 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ void	Server::response(int fd, Request *request) {
 
 	if ((serverRef = getServerName()).empty())
 		serverRef = this->getIpPort();
-	Log::message("clienteFd:", intToString(fd).c_str(),
+/* 	Log::message("clienteFd:", intToString(fd).c_str(),
 			"Request:", request->getMethod().c_str(),
 			"Path", request->getPath().c_str(), 
-			"To server:", serverRef.c_str(), 0);
+			"To server:", serverRef.c_str(), 0); */
 	methods = defineMethods(request->getMethod());
 	methods->setAtributes(*this,  *request);
 	http  = methods->createHTTP();
