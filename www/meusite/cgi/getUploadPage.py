@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import os
-from sys import stdin, stdout
+from sys import stdin, stdout, stderr
 
 html_open = '''<!DOCTYPE html>
 <html lang="en">
@@ -126,16 +126,24 @@ if __name__ == "__main__":
     content_type = os.environ.get("CONTENT_TYPE", "")
 
     if path_translated.find('/update/') == -1:
-        exit(1);
-    print(html_open)
-    for file_name in os.listdir(path_translated):
-        complet_path = os.path.join(path_translated, file_name)
-        if os.path.isfile(complet_path) and file_name.endswith(".html"):
-            with open(complet_path, 'r') as arquivo:
-                content = arquivo.read()
-                arquivo.close()
-                print(content)
+        exit(1)
+    print(html_open, stderr)
+    try:
+        for file_name in os.listdir(path_translated):
+            complet_path = os.path.join(path_translated, file_name)
+            if os.path.isfile(complet_path) and file_name.endswith(".html"):
+                with open(complet_path, 'r') as arquivo:
+                    content = arquivo.read()
+                    arquivo.close()
+                    print(content)
+    except FileNotFoundError:
+        exit(1)
+    except PermissionError:
+        exit(1)
+    except Exception as e:
+        exit(1)
+
     print(html_close)
     stdin.close()
     stdout.close()
-    exit(0);
+    exit(0)
