@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ParseConf.cpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
+/*   By: myokogaw <myokogaw@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/17 19:35:36 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/07 16:26:30 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/09 18:57:30 by myokogaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	ParseConf::validDirectives(){
 void	ParseConf::initServers(){
 	std::list<blockServer>::iterator	it;
 	std::list<std::string>::iterator	locait;
-	std::map<std::string, std::string>	ctlrIP, ctlrPort;
+	std::map<std::string, std::string>	ctlrPort;
 
 	for (it = _serverBlock.begin(); it != _serverBlock.end(); it++){
 		Server	server;
@@ -86,8 +86,7 @@ void	ParseConf::initServers(){
 		for(locait = it->_locationsScope.begin(); locait != it->_locationsScope.end(); locait++){
 			server.setLocation(*locait);
 		}
-		if (not ctlrIP.count(server.getIP()) && not ctlrPort.count(server.getPort())){
-			ctlrIP[server.getIP()];
+		if (not ctlrPort.count(server.getPort())){
 			ctlrPort[server.getPort()];
 			server.initTCP(server.getPort().c_str(), server.getIP().c_str());
 			Log::message("Socket created:", "IP", server.getIP().c_str(),
