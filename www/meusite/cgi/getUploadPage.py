@@ -127,7 +127,7 @@ if __name__ == "__main__":
 
     if path_translated.find('/update/') == -1:
         exit(1)
-    print(html_open, stderr)
+    print(html_open)
     try:
         for file_name in os.listdir(path_translated):
             complet_path = os.path.join(path_translated, file_name)

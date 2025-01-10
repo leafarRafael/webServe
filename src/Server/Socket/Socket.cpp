@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Socket.cpp                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: myokogaw <myokogaw@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 11:48:07 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/09 19:58:30 by myokogaw         ###   ########.fr       */
+/*   Updated: 2025/01/10 17:14:15 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,8 @@ void	Socket::setAddrToSocket(){
 }
 
 void	Socket::putSocketListeningLimit(){
-	listen(_socketFd, 10);
+	listen(_socketFd, BACK_LOG_LISTEN);
 }
-
 
 int		Socket::getSocketFd() const {
 	return (this->_socketFd);

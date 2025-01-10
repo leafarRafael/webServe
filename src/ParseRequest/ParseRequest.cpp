@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/15 18:06:41 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/06 13:47:22 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/10 17:25:45 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ Request *ParseRequest::setBufferSocketFd(Client *client){
 		return 0;
 	isNewClient(client->getFdClient());
 	setBuffer(client->getFdClient());
+	if (_socket[client->getFdClient()].request->getParserError() == -42){
+		Request *request = _socket[client->getFdClient()].request;
+		_socket.erase(client->getFdClient());
+		return request;
+	}
 	if (parseRequest(client->getFdClient(), client)){
 		Request *request = _socket[client->getFdClient()].request;
 		_socket.erase(client->getFdClient());
@@ -70,8 +75,10 @@ void	ParseRequest::setBuffer(int fd){
 
 	memset(buffer, 0, 8012 +1);
 	bytesRead = recv(fd, buffer, 8012, MSG_DONTWAIT);
-	if (bytesRead <= 0 )
-		_socket[fd].request->setParserError(-1);
+	if (bytesRead <= 0 ){
+		_socket[fd].request->setParserError(-42);
+		return ;
+	}
 	_socket[fd].buffer.append(buffer, bytesRead);
 }
 

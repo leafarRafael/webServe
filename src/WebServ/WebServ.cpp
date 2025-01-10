@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/19 11:58:02 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/07 16:24:19 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/10 17:24:34 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,21 +90,25 @@ bool	WebServ::isNewClient(int fd){
 			return (true);
 		}
 	}
-	return (false);	
+	return (false);
 }
 
 void	WebServ::receiveCustomerData(void *ptr){
 	Client *client;
-	
+
 	client = (Client *)ptr;
 	if (not client->getRequest())
 	{
 		Request *request = setBufferSocketFd(client);
-		if (request)
-		{
+		if (request){
 			client->setRequest(request);
-			if (request->getParserError() == -1)
+			if (request->getParserError() == -42){
+				Log::message("FD:", intToString(client->getFdClient()).c_str(),
+					"has been removed.",
+					"Client closed the connection.", 0);
 				removeClient(request, client);
+				return ;
+			}
 			else
 				epoll_CTRL(client->getFdClient(), EPOLLOUT, EPOLL_CTL_MOD, (void*)(client));
 		}
@@ -121,13 +125,11 @@ void	WebServ::manangerResponse(void *ptr){
 
 void	WebServ::checkTimeOut(){
 	std::list<Client*>::iterator it = _client.begin();
-	char	c;
 
 	if(it == _client.end())
 		return ;
 	while (it != _client.end()){
-		if ((*it)->timeOut() || recv((*it)->getFdClient(), &c, 1, MSG_PEEK) <= 0){
-			Client	 *client;
+		if ((*it)->timeOut()){
 			Log::message("Client fd:", intToString((*it)->getFdClient()).c_str(),
 				"was disconnected due to TimeOut.", 0);
 			Request *request = (Request *)(*it)->getRequest();
@@ -136,7 +138,7 @@ void	WebServ::checkTimeOut(){
 			close((*it)->getFdClient());
 			if (request)
 				delete request;
-			client = (*it);
+			Client	 *client = (*it);
 			it = _client.erase(it);
 			delete client;
 		}else
