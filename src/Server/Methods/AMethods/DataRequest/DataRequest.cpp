@@ -6,12 +6,12 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 12:50:25 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/09 17:19:51 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/10 21:46:09 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "DataRequest.hpp"
-
+#include "utils.hpp"
 #include <iostream>
 
 std::string	DataRequest::extensionCGI[7] = {
@@ -45,8 +45,11 @@ void	DataRequest::setDateRequest(Request &request){
 	_content_length = joinHeaders(request.getHeader("Content-Length"));
 	_content_type = joinHeaders(request.getHeader("Content-Type"));
 	ABody *body = request.getBody();
-	if (body)
+	if (body){
 		_body = body->getDataBody().getContent();
+		if (request.getHeader("Transfer-Encoding").front() == "chunked")
+			_content_length = intToString(_body.size());
+	}
 	splitURL(request.getPath());
 }
 

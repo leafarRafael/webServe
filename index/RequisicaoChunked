@@ -1,4 +1,4 @@
-POST /form/formChunked.html HTTP/1.1
+POST /cgi/chunked.py/update/ HTTP/1.1
 Host: localhost
 Transfer-Encoding: chunked
 Content-Type: text/plain
@@ -16,4 +16,3 @@ And this is yet another segment.
 The last chunk here.
 
 0
-
