@@ -6,7 +6,7 @@
 /*   By: rbutzke <rbutzke@student.42sp.org.br>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/27 12:50:25 by rbutzke           #+#    #+#             */
-/*   Updated: 2025/01/10 21:46:09 by rbutzke          ###   ########.fr       */
+/*   Updated: 2025/01/12 16:53:02 by rbutzke          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	DataRequest::setDateRequest(Request &request){
 	ABody *body = request.getBody();
 	if (body){
 		_body = body->getDataBody().getContent();
-		if (request.getHeader("Transfer-Encoding").front() == "chunked")
+		if (not request.getHeader("Transfer-Encoding").empty()
+			 && request.getHeader("Transfer-Encoding").front() == "chunked")
 			_content_length = intToString(_body.size());
 	}
 	splitURL(request.getPath());
